@@ -535,4 +535,8 @@ def _log_paper_trades(edges: list[dict]) -> None:
 
 
 if __name__ == "__main__":
-    scan_markets()
+    import sys
+    use_live = "--no-live" not in sys.argv
+    if not use_live:
+        print("Running without live SR data (using committed Elo state only)\n")
+    scan_markets(use_live=use_live)

@@ -1,0 +1,53 @@
+name: Paper Trading - Predict & Resolve
+
+on:
+  schedule:
+    # Run 3x per day: 8am, 2pm, 8pm UTC
+    - cron: '0 8,14,20 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  paper-trade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      SPORTRADAR_API_KEY: ${{ secrets.SPORTRADAR_API_KEY }}
+
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run predictor (no live SR to save API quota — uses committed Elo state)
+        run: python -m model.predictor --no-live
+
+      - name: Backfill closed events (get resolutions)
+        run: python run_scraper.py --backfill
+
+      - name: Resolve paper trade outcomes
+        run: python -m model.paper_trade resolve
+
+      - name: Print report
+        run: python -m model.paper_trade report
+
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -f data/tennis_pm.db data/paper_trades.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "auto: paper trade update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push

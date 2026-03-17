@@ -1,0 +1,47 @@
+{
+  "name": "best_model",
+  "features": [
+    "elo_diff",
+    "surface_elo_diff",
+    "rank_diff",
+    "rank_points_diff",
+    "age_diff",
+    "height_diff",
+    "h2h_diff",
+    "form_diff",
+    "fatigue_rest_diff",
+    "fatigue_7d_diff",
+    "fatigue_14d_diff",
+    "games_last_diff",
+    "ace_rate_diff",
+    "first_serve_pct_diff",
+    "first_serve_won_diff",
+    "bp_saved_diff",
+    "round_num",
+    "tourney_level_num",
+    "best_of",
+    "surface_hard",
+    "surface_clay",
+    "surface_grass",
+    "is_atp"
+  ],
+  "train_years": [
+    2015,
+    2022
+  ],
+  "val_years": [
+    2023,
+    2023
+  ],
+  "test_years": [
+    2024,
+    2024
+  ],
+  "metrics": {
+    "accuracy": 0.6516993890503588,
+    "brier_score": 0.21420013904571533,
+    "log_loss": 0.6157723957181076,
+    "auc_roc": 0.7151882432162712,
+    "ece": 0.008560994408750296
+  }
+}
