@@ -1,5 +1,4 @@
 __pycache__/
 *.pyc
-data/tennis_pm.db
 data/scraper.log
 .env
