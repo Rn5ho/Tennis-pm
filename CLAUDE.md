@@ -50,6 +50,25 @@ Automated tennis value betting system on Polymarket. Compares AI-generated match
 - Models saved to `data/models/`; calibration plots in `data/evaluation/`
 - Run: `python -m model.train`
 
+### Phase 2: Paper Trading - ACTIVE
+- **SportRadar integration** (`scraper/sportradar.py`): live rankings, match results, serve stats
+  - API key in `.env` (SPORTRADAR_API_KEY), 30-day trial started 2026-03-17
+  - Player mapping: SR IDs -> Sackmann IDs -> PM names (data/sr_player_map.json)
+  - 182/237 active PM players linked through full chain
+- **Elo backfilled** to March 2026 (`model/backfill_elo.py`): 21K matches from SR daily schedules
+  - Cached in `data/sr_daily_cache/`, state saved in `data/elo_state.json`
+  - Re-run `python -m model.backfill_elo` to update (cached days are skipped)
+- **Verified player name map** (`data/player_map.json`): 296/311 PM players matched
+  - Runtime uses ONLY verified mappings — no fuzzy logic, no guessing
+  - Re-generate: `python -m model.name_match generate`
+- **Live predictor** (`model/predictor.py`): scans PM markets with current Elo + SR live data
+  - Filters: $500 min volume, skips resolved markets (price < 2% or > 98%)
+  - Paper trade log: `data/paper_trades.json`
+  - Run: `python -m model.predictor`
+- **Still needed:**
+  - PM backtest once enough resolved markets accumulate with odds history
+  - Matchstat fallback before SR trial expires (~April 16)
+
 ## Key Design Decisions
 
 These were discussed and agreed upon before building. Do not change without discussion.
