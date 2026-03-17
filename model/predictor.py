@@ -38,6 +38,36 @@ def load_model(name: str = "best_model"):
     return joblib.load(path)
 
 
+def _load_player_stats_light() -> dict:
+    """Load player stats from committed Elo state only (no Sackmann needed).
+
+    Used on CI/Actions where Sackmann data isn't available.
+    Only provides Elo — other features will be NaN, which the model handles.
+    """
+    from model.backfill_elo import load_elo_state
+    elo_state = load_elo_state()
+    if not elo_state:
+        raise FileNotFoundError("No elo_state.json found. Run backfill_elo first.")
+
+    stats = {}
+    for pid, elo_val in elo_state.get("elo", {}).items():
+        stats[pid] = {
+            "elo": elo_val,
+            "surface_elo": elo_state.get("surface_elo", {}).get(pid, {}),
+            "rank": np.nan, "rank_points": np.nan,
+            "age": np.nan, "height": np.nan,
+            "form": np.nan, "days_rest": np.nan,
+            "matches_7d": 0, "matches_14d": 0,
+            "games_last": np.nan,
+            "ace_rate": np.nan, "1st_pct": np.nan,
+            "1st_won": np.nan, "bp_saved": np.nan,
+            "_h2h": {},
+        }
+
+    logger.info(f"Loaded light stats for {len(stats)} players from Elo state")
+    return stats
+
+
 def _load_player_stats() -> dict:
     """Load per-player stats from Sackmann data.
 
@@ -295,8 +325,12 @@ def scan_markets(use_live=True):
     print("Loading player map...")
     player_map = load_player_map()
 
-    print("Loading historical player stats...")
-    player_stats = _load_player_stats()
+    if use_live:
+        print("Loading historical player stats...")
+        player_stats = _load_player_stats()
+    else:
+        print("Loading player stats from Elo state (light mode)...")
+        player_stats = _load_player_stats_light()
 
     if use_live:
         print("Fetching live data from SportRadar...")
@@ -499,14 +533,18 @@ def scan_markets(use_live=True):
 
 def _log_paper_trades(edges: list[dict]) -> None:
     """Append edge signals to paper trading log for tracking."""
+    import json as _json
     from datetime import datetime, timezone
     from config.settings import PAPER_TRADES_PATH
 
     existing = []
     if PAPER_TRADES_PATH.exists():
-        import json
-        with open(PAPER_TRADES_PATH) as f:
-            existing = json.load(f)
+        try:
+            with open(PAPER_TRADES_PATH) as f:
+                existing = _json.load(f)
+        except (_json.JSONDecodeError, ValueError):
+            logger.warning("Corrupt paper_trades.json, starting fresh")
+            existing = []
 
     timestamp = datetime.now(timezone.utc).isoformat()
 
@@ -518,18 +556,17 @@ def _log_paper_trades(edges: list[dict]) -> None:
             "series": e["series"],
             "bet_on": e[f"player_{best}"],
             "opponent": e[f"player_{'b' if best == 'a' else 'a'}"],
-            "model_prob": round(e[f"model_prob_{best}"], 4),
-            "pm_price": round(e[f"pm_price_{best}"], 4),
-            "edge": round(e[f"edge_{best}"], 4),
-            "volume": e["volume"],
-            "outcome": None,  # filled in later when market resolves
+            "model_prob": round(float(e[f"model_prob_{best}"]), 4),
+            "pm_price": round(float(e[f"pm_price_{best}"]), 4),
+            "edge": round(float(e[f"edge_{best}"]), 4),
+            "volume": float(e["volume"]),
+            "outcome": None,
         }
         existing.append(entry)
 
-    import json
     PAPER_TRADES_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(PAPER_TRADES_PATH, "w") as f:
-        json.dump(existing, f, indent=2)
+        _json.dump(existing, f, indent=2)
 
     print(f"\nLogged {len(edges)} paper trades to {PAPER_TRADES_PATH}")
 
