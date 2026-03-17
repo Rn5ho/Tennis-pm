@@ -2,11 +2,11 @@
 
 ## What This Is
 
-Automated tennis value betting system on Polymarket. Compares AI-generated match win probabilities against Polymarket implied odds. Bets when the gap exceeds a threshold.
+Automated tennis value betting system on Polymarket. Compares AI-generated match win probabilities against Polymarket implied odds. Bets when the gap exceeds a threshold (currently 5%, to be revisited with real data).
 
 ## Why This Should Work
 
-- Tennis has real predictive features (rankings, H2H, surface, fatigue, recent form)
+- Tennis has real predictive features (Elo ratings, H2H, surface, fatigue, recent form)
 - Polymarket tennis markets are thin ($2K-$25K volume per match) = less efficient pricing
 - We're classifying/filtering (find mispriced matches) not predicting direction in efficient markets
 - Counterparties are retail, not HFT algorithms
@@ -15,12 +15,12 @@ Automated tennis value betting system on Polymarket. Compares AI-generated match
 
 ```
 [Data Layer]
-  Jeff Sackmann CSV (historical) --> Model Training
-  SportRadar / Matchstat API (live) --> Live Player Stats
-  Polymarket Gamma API (live) --> Current Implied Odds
+  Jeff Sackmann CSV + Elo ratings (historical) --> Model Training
+  SportRadar / Matchstat API (live, pluggable) --> Live Player Stats
+  Polymarket Gamma API (live) --> Current Implied Odds + Odds Snapshots
 
 [Prediction Layer]
-  Feature Engineering --> ML Model --> Win Probability per player
+  Surface-adjusted Elo (backbone) + supplementary features --> XGBoost/LightGBM + calibration layer --> Win Probability per player
 
 [Execution Layer]
   Compare model prob vs Polymarket price --> Bet when edge > threshold
@@ -29,29 +29,71 @@ Automated tennis value betting system on Polymarket. Compares AI-generated match
   Telegram bot --> Monitoring & alerts
 ```
 
+## Current Status
+
+### Phase 0: Data Collection - ACTIVE
+- **Polymarket scraper is built and running** via Windows Task Scheduler (`TennisPM_Scraper`), every 30 minutes
+- Scrapes both ATP (series_id: 10365) and WTA (series_id: 10366) moneyline markets only
+- Stores events, markets, and point-in-time odds snapshots in SQLite (`data/tennis_pm.db`)
+- Entry point: `python run_scraper.py` (once), `python run_scraper.py --loop` (continuous), `python run_scraper.py --backfill` (closed events)
+- Logs append to `data/scraper.log`
+
+## Key Design Decisions
+
+These were discussed and agreed upon before building. Do not change without discussion.
+
+1. **XGBoost/LightGBM + calibration layer** instead of sklearn RandomForest/GradientBoosting. RF is poorly calibrated out of the box. Use isotonic regression or Platt scaling on top. Logistic regression as baseline comparison.
+
+2. **Sackmann Elo ratings as backbone feature.** Surface-specific Elo encodes ranking gap, H2H, and surface form in one number. Supplementary features (fatigue, serve stats, recent form) add on top, but Elo does the heavy lifting.
+
+3. **Backtest against actual Polymarket odds, not bookmaker closing lines.** Bookmaker closing odds are the most efficient prices in sports — almost impossible to beat. Polymarket is far less efficient. That's where the edge is. The Phase 0 scraper is building this dataset.
+
+4. **Fuzzy player name matching system.** Polymarket, Sackmann, and SportRadar all use different name formats. Needs a dedicated matching layer with manual override support.
+
+5. **SQLite for all storage** (not flat CSV files). Single-file, zero-config, queryable. Schema is in `scraper/db.py`.
+
+6. **Pluggable data sources.** SportRadar has a 30-day free trial that will expire. The data layer must allow swapping SportRadar for Matchstat or other sources without rewiring everything.
+
+7. **Odds snapshots over time, not single readings.** The scraper captures odds every 30 minutes. Odds movement is signal — sudden moves suggest injury news, weather, or insider info.
+
+8. **5% minimum edge threshold** to consider a bet (model says 65%, market implies <=60%). This is a starting default — will be revisited once we have enough data to analyze.
+
 ## Data Sources
 
 ### Historical Match Data (Training) - FREE
 - **Jeff Sackmann/tennis_atp**: https://github.com/JeffSackmann/tennis_atp
 - ATP matches from 1968, match stats from 1991, Challengers from 2008
+- **Includes pre-computed Elo ratings** (overall + surface-specific) — use these as backbone
 - CSV format: player rankings, H2H, serve stats, break points, all integer totals
-- License: CC BY-NC-SA 4.0 (non-commercial)
+- License: CC BY-NC-SA 4.0 (non-commercial — note: using for profit betting is a gray area)
 - Also has WTA: https://github.com/JeffSackmann/tennis_wta
 
 ### Polymarket Odds - FREE, NO AUTH
 - Gamma API (read-only, no auth): `https://gamma-api.polymarket.com`
-- Sports endpoint: `GET /sports` (lists all leagues)
 - ATP series_id: `10365`, WTA series_id: `10366`
 - Events: `GET /events?series_id=10365&active=true&closed=false`
-- Each event has `outcomePrices` array = implied probabilities
+- Each event has `markets` array; we filter to `sportsMarketType: "moneyline"` only
+- Other market types exist (tennis_first_set_winner, tennis_first_set_totals, etc.) — we skip these
+- **IMPORTANT**: `outcomePrices` comes as a JSON-encoded string, not a native list. Must `json.loads()` before indexing.
 - CLOB API for order placement (needs wallet + API creds)
 - Docs: https://docs.polymarket.com/quickstart/fetching-data
 
-### Live Tennis Data - FREE TO START
+### Gamma API Response Structure (key fields)
+```
+Event level:  id, title, slug, gameId, startDate, endDate, active, closed
+              eventMetadata.league (tournament name)
+Market level: id, outcomes[], outcomePrices[], clobTokenIds[]
+              bestBid, bestAsk, lastTradePrice, spread
+              volume, liquidityClob, sportsMarketType
+              umaResolutionStatus ("proposed" | "resolved")
+```
+
+### Live Tennis Data - FREE TO START (pluggable)
 - **SportRadar**: 30-day free trial, same data as production, lower rate limits
   - v3 Tennis API, covers ATP + WTA + Challengers + 20K UTR events
   - Endpoints: seasons, schedules, competitor profiles, H2H, match summaries
   - Docs: https://developer.sportradar.com/tennis/reference/overview
+  - WARNING: trial expires — must have fallback ready
 - **Matchstat.com**: Free tier available, tennis-specific, includes pre-match odds
   - H2H stats, player profiles, historical data back to 1990
   - RapidAPI: https://rapidapi.com/user/jjrm365-kIFr3Nx_odV
@@ -59,16 +101,16 @@ Automated tennis value betting system on Polymarket. Compares AI-generated match
 
 ## Key Features for Model
 
-Priority features to engineer from Sackmann data:
+**Backbone (from Sackmann Elo data):**
+- **Surface-adjusted Elo** — overall Elo + surface-specific Elo (clay/hard/grass). This single feature encodes ranking, H2H history, and surface affinity.
 
-1. **Ranking gap** - absolute and relative difference in ATP ranking
-2. **H2H record** - historical win/loss between the two players
-3. **Surface form** - win rate on clay/hard/grass in last 6-12 months
-4. **Recent form** - win rate in last 10-20 matches
-5. **Fatigue** - days since last match, matches played in last 7/14 days
-6. **Tournament round** - early rounds have more upsets
-7. **Serve stats** - ace rate, 1st serve %, break points saved (from 2008+ for Challengers)
-8. **Age/experience** - career matches played, years on tour
+**Supplementary features (from Sackmann match CSVs):**
+1. **H2H record** - historical win/loss between the two players (direct matchup history beyond what Elo captures)
+2. **Recent form** - win rate in last 10-20 matches
+3. **Fatigue** - days since last match, matches played in last 7/14 days
+4. **Tournament round** - early rounds have more upsets
+5. **Serve stats** - ace rate, 1st serve %, break points saved (from 2008+ for Challengers)
+6. **Age/experience** - career matches played, years on tour
 
 ## Polymarket CLOB Execution
 
@@ -108,67 +150,90 @@ If we buy a position and the market moves in our favor (our player's odds increa
 
 ## Phase Plan
 
-### Phase 0: Data Collection (NOW - runs locally, no server needed)
-- Start scraping Polymarket ATP/WTA events daily via gamma API
-- Store: event_id, match details, player names, implied odds, timestamps, resolution
-- This builds the backtest dataset we don't have yet
-- Can run as a cron job, GitHub Action, or simple script on any machine
+### Phase 0: Data Collection - ACTIVE
+- Polymarket scraper running every 30 min via Windows Task Scheduler
+- Stores moneyline odds snapshots in SQLite
+- Also supports `--backfill` to fetch closed/resolved events with outcomes
+- **Goal:** accumulate enough Polymarket odds history to backtest against real PM prices
 
-### Phase 1: Backtest Model (Week 1-2, local)
-- Download Sackmann CSVs
-- Engineer features
-- Train classifier (GradientBoosting or RandomForest)
-- Backtest against traditional bookmaker closing odds as proxy for Polymarket
+### Phase 1: Backtest Model (local)
+- Download Sackmann CSVs + Elo ratings
+- Engineer features with surface-adjusted Elo as backbone
+- Train XGBoost/LightGBM classifier with calibration layer
+- Backtest against actual Polymarket odds (from Phase 0 data)
 - KEY METRIC: calibration (when model says 65%, does the player win ~65%?)
 - MUST use proper train/test split. Never evaluate on training data.
+- Compare against logistic regression baseline
 
-### Phase 2: Paper Trading (Week 3-4, local)
-- Connect live SportRadar/Matchstat data
+### Phase 2: Paper Trading (local)
+- Connect live tennis data (SportRadar/Matchstat, pluggable)
+- Build fuzzy player name matching (Polymarket names <-> Sackmann/SportRadar IDs)
 - Match upcoming Polymarket events to player data
 - Generate predictions, compare to Polymarket odds
 - Log everything, no real bets
 - Measure: how often does model find edge? what's the theoretical ROI?
 
-### Phase 3: Live (Week 5+, needs VPS)
-- Deploy to Hetzner VPS
+### Phase 3: Live (needs VPS)
+- Deploy to Hetzner VPS (Helsinki)
 - Small bankroll ($50-100)
 - Strict bet sizing (Kelly criterion or flat 1-2%)
 - 7-DAY NO-DEPLOY RULE after any parameter change
 - Minimum 100 bets before evaluating
 
+## SQLite Schema
+
+Database: `data/tennis_pm.db` (defined in `scraper/db.py`)
+
+**events** — one row per Polymarket event (match)
+- id, title, slug, series (atp/wta), league, game_id, start_date, end_date, created_at, active, closed
+
+**markets** — one row per moneyline market
+- id, event_id, question, outcome_a, outcome_b, token_id_a, token_id_b, condition_id, resolution_status, winner, closed_time
+
+**snapshots** — one row per odds reading (every 30 min for active markets)
+- id, market_id, scraped_at, price_a, price_b, best_bid, best_ask, last_trade_price, spread, volume, liquidity
 
 ## File Structure
 
 ```
 tennis-pm/
-├── CLAUDE.md              # This file
+├── CLAUDE.md              # This file — project context for every session
+├── requirements.txt       # Dependencies (Phase 0 uses stdlib only)
+├── run_scraper.py         # Entry point: scrape once, --loop, or --backfill
+├── scrape_task.bat        # Windows Task Scheduler target
+├── config/
+│   └── settings.py        # Gamma API URLs, series IDs, intervals, thresholds
+├── scraper/
+│   ├── db.py              # SQLite schema, upsert/insert functions
+│   └── pm_scraper.py      # Gamma API fetch + scrape logic
 ├── data/
-│   ├── sackmann/          # Git submodule or downloaded CSVs
-│   ├── polymarket/        # Scraped PM odds history
-│   └── features/          # Engineered feature sets
-├── model/
+│   ├── tennis_pm.db       # SQLite database (auto-created)
+│   ├── scraper.log        # Appended by scheduled task
+│   └── sackmann/          # (Phase 1) Downloaded Sackmann CSVs + Elo
+├── model/                 # (Phase 1) To be built
 │   ├── train.py           # Model training
 │   ├── features.py        # Feature engineering
 │   └── evaluate.py        # Backtesting & calibration
-├── scraper/
-│   ├── pm_scraper.py      # Polymarket gamma API scraper
-│   └── sportradar.py      # Live data fetcher
-├── bot/
-│   ├── main.py            # Main loop
+├── bot/                   # (Phase 2-3) To be built
+│   ├── main.py            # Main event loop
 │   ├── predictor.py       # Live predictions
 │   ├── executor.py        # Polymarket order placement
-│   ├── telegram_bot.py    # Monitoring
+│   ├── telegram_bot.py    # Monitoring & alerts
 │   └── early_exit.py      # EE logic
 ├── config/
 │   └── settings.py        # All configurable parameters
-├── changelog.md           # Every parameter change with reasoning
+├── changelog.md           # (Phase 3) Every parameter change with reasoning
 └── deploy/
-    └── deploy.sh          # VPS deployment
+    └── deploy.sh          # (Phase 3) VPS deployment
 ```
 
 ## Environment
 
-- Python 3.11+
-- Deployment target: Hetzner VPS (Helsinki)
-- Key dependencies: py-clob-client, pandas, scikit-learn, aiohttp, python-telegram-bot
-- Dev: runs locally for Phase 0-2, server only needed for Phase 3
+- Python 3.13 (on dev machine), 3.11+ minimum
+- Dev machine: Windows 10 Pro, Git Bash shell
+- Launch shortcut: `C:\Users\Rn5ho\Desktop\TennisPM.bat` (opens Claude Code with --dangerously-skip-permissions)
+- Scheduled task: `TennisPM_Scraper` (Windows Task Scheduler, every 30 min, interactive mode)
+- Deployment target: Hetzner VPS (Helsinki) for Phase 3
+- Phase 0 deps: Python stdlib only (no pip install needed)
+- Phase 1+ deps: xgboost, lightgbm, pandas, scikit-learn, aiohttp
+- Phase 3 deps: py-clob-client, python-telegram-bot

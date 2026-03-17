@@ -1,0 +1,9 @@
+# Phase 0: Scraper (stdlib only - no extra deps needed)
+# Phase 1+: uncomment as needed
+# xgboost
+# lightgbm
+# pandas
+# scikit-learn
+# aiohttp
+# py-clob-client
+# python-telegram-bot
