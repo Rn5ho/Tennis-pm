@@ -32,11 +32,23 @@ Automated tennis value betting system on Polymarket. Compares AI-generated match
 ## Current Status
 
 ### Phase 0: Data Collection - ACTIVE
-- **Polymarket scraper is built and running** via Windows Task Scheduler (`TennisPM_Scraper`), every 30 minutes
+- **Polymarket scraper running via GitHub Actions** (`.github/workflows/scraper.yml`), every 30 minutes
 - Scrapes both ATP (series_id: 10365) and WTA (series_id: 10366) moneyline markets only
+- Paginates through all results (Gamma API defaults to 20 per page, ~120 active markets typical)
 - Stores events, markets, and point-in-time odds snapshots in SQLite (`data/tennis_pm.db`)
+- DB is committed to repo by Actions so data persists without a server
 - Entry point: `python run_scraper.py` (once), `python run_scraper.py --loop` (continuous), `python run_scraper.py --backfill` (closed events)
 - Logs append to `data/scraper.log`
+
+### Phase 1: Model Training - COMPLETE
+- Sackmann data downloaded to `data/sackmann/` (ATP + WTA, 2000-2024, including Challengers)
+- Custom Elo computation in `model/elo.py` (overall + surface-specific, dynamic K-factor)
+- 23 difference-based features in `model/features.py` (Elo, ranking, serve stats, fatigue, H2H, form)
+- XGBoost + isotonic calibration selected as best model (ECE=0.009 on 2024 test set)
+- All models ~65% accuracy, AUC ~0.715 — well-calibrated across full probability range
+- Feature importance: elo_diff (33%), surface_elo_diff (21%), rank_diff (6%), fatigue_14d (4%)
+- Models saved to `data/models/`; calibration plots in `data/evaluation/`
+- Run: `python -m model.train`
 
 ## Key Design Decisions
 
@@ -63,7 +75,7 @@ These were discussed and agreed upon before building. Do not change without disc
 ### Historical Match Data (Training) - FREE
 - **Jeff Sackmann/tennis_atp**: https://github.com/JeffSackmann/tennis_atp
 - ATP matches from 1968, match stats from 1991, Challengers from 2008
-- **Includes pre-computed Elo ratings** (overall + surface-specific) — use these as backbone
+- **Does NOT include pre-computed Elo** — we compute our own in `model/elo.py` (overall + surface-specific)
 - CSV format: player rankings, H2H, serve stats, break points, all integer totals
 - License: CC BY-NC-SA 4.0 (non-commercial — note: using for profit betting is a gray area)
 - Also has WTA: https://github.com/JeffSackmann/tennis_wta
