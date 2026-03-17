@@ -39,24 +39,41 @@ def _fetch_json(url: str) -> list | dict:
 
 
 def fetch_events(series_id: str, closed: bool = False) -> list[dict]:
-    """Fetch tennis events from Gamma API.
+    """Fetch tennis events from Gamma API, paginating through all results.
 
     Args:
         series_id: ATP or WTA series ID.
         closed: If True, also fetch closed/resolved events (for backfill).
     """
-    params = f"series_id={series_id}"
+    PAGE_SIZE = 100
+    base_params = f"series_id={series_id}&limit={PAGE_SIZE}"
     if not closed:
-        params += "&active=true&closed=false"
+        base_params += "&active=true&closed=false"
 
-    url = f"{GAMMA_API_BASE}/events?{params}"
-    logger.info("Fetching %s", url)
-    data = _fetch_json(url)
+    all_events = []
+    offset = 0
 
-    if isinstance(data, dict):
-        # API sometimes wraps in a dict
-        data = data.get("data", data.get("events", [data]))
-    return data if isinstance(data, list) else [data]
+    while True:
+        url = f"{GAMMA_API_BASE}/events?{base_params}&offset={offset}"
+        logger.info("Fetching %s", url)
+        data = _fetch_json(url)
+
+        if isinstance(data, dict):
+            data = data.get("data", data.get("events", [data]))
+        batch = data if isinstance(data, list) else [data]
+
+        # Empty response or placeholder with no real data = done
+        if not batch or not batch[0].get("id"):
+            break
+
+        all_events.extend(batch)
+
+        if len(batch) < PAGE_SIZE:
+            break
+        offset += PAGE_SIZE
+        time.sleep(REQUEST_DELAY_SECONDS)
+
+    return all_events
 
 
 def scrape_once() -> dict:
