@@ -1,6 +1,9 @@
 @echo off
 cd /d C:\Users\Rn5ho\Tennis-pm
 
+:: Make sure we're on dev
+git checkout dev >nul 2>&1
+
 :: Run the scraper
 C:\Python313\python.exe run_scraper.py >> data\scraper.log 2>&1
 

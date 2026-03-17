@@ -180,6 +180,22 @@ If we buy a position and the market moves in our favor (our player's odds increa
 - 7-DAY NO-DEPLOY RULE after any parameter change
 - Minimum 100 bets before evaluating
 
+## Git Workflow
+
+### Branches
+- **`main`** — stable, tested code only. Merged to at phase milestones, tagged with versions.
+- **`dev`** — daily working branch. All Claude sessions and auto-pushes happen here.
+- **`feature/*`** — branch off `dev` for bigger changes (e.g., `feature/model-training`), merge back to `dev` via PR when done.
+
+### Flow
+1. Work happens on `dev` (or a feature branch off `dev`)
+2. Scraper auto-commits+pushes to `dev` every 30 min
+3. When a phase milestone is complete: merge `dev` → `main`, tag it (v0.1.0, v0.2.0, etc.)
+4. `TennisPM.bat` always checks out `dev` before launching Claude
+
+### Tags
+- `v0.1.0` — Phase 0 scraper complete
+
 ## SQLite Schema
 
 Database: `data/tennis_pm.db` (defined in `scraper/db.py`)
