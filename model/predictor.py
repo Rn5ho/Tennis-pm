@@ -8,9 +8,12 @@ Loads the trained model and player map, then for each active PM market:
 5. Flag markets where edge exceeds threshold
 """
 
+import logging
 import sqlite3
 from collections import defaultdict
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 import joblib
 import numpy as np
@@ -184,6 +187,38 @@ def _load_player_stats() -> dict:
             elif l == pid:
                 stats[pid]["_h2h"][w] = stats[pid]["_h2h"].get(w, [0, 0])
                 stats[pid]["_h2h"][w][1] += count
+
+    # Overlay backfilled Elo state (2025-2026) if available
+    from model.backfill_elo import load_elo_state
+    elo_state = load_elo_state()
+    if elo_state:
+        updated_count = 0
+        for pid, elo_val in elo_state.get("elo", {}).items():
+            if pid in stats:
+                stats[pid]["elo"] = elo_val
+                updated_count += 1
+            else:
+                # Player exists in backfill but not in historical stats — create entry
+                stats[pid] = {
+                    "elo": elo_val,
+                    "surface_elo": {},
+                    "rank": np.nan, "rank_points": np.nan,
+                    "age": np.nan, "height": np.nan,
+                    "form": np.nan, "days_rest": np.nan,
+                    "matches_7d": 0, "matches_14d": 0,
+                    "games_last": np.nan,
+                    "ace_rate": np.nan, "1st_pct": np.nan,
+                    "1st_won": np.nan, "bp_saved": np.nan,
+                    "_h2h": {},
+                }
+                updated_count += 1
+
+            # Overlay surface Elo
+            surf_elo = elo_state.get("surface_elo", {}).get(pid, {})
+            if surf_elo:
+                stats[pid]["surface_elo"] = surf_elo
+
+        logger.info(f"Overlaid backfilled Elo for {updated_count} players (through {elo_state.get('updated_through', '?')})")
 
     return stats
 
@@ -388,6 +423,17 @@ def scan_markets(use_live=True):
             skipped += 1
             continue
 
+        # Skip low-liquidity markets — price is noise
+        from config.settings import MIN_VOLUME
+        if (mkt["volume"] or 0) < MIN_VOLUME:
+            skipped += 1
+            continue
+
+        # Skip markets where either price is near 0 or 1 (effectively resolved)
+        if pm_price_a < 0.02 or pm_price_b < 0.02 or pm_price_a > 0.98 or pm_price_b > 0.98:
+            skipped += 1
+            continue
+
         is_atp = mkt["series"] == "atp"
 
         # Predict
@@ -444,7 +490,48 @@ def scan_markets(use_live=True):
     else:
         print("No edges found above threshold.")
 
+    # Log paper trades
+    if edges:
+        _log_paper_trades(edges)
+
     return edges
+
+
+def _log_paper_trades(edges: list[dict]) -> None:
+    """Append edge signals to paper trading log for tracking."""
+    from datetime import datetime, timezone
+    from config.settings import PAPER_TRADES_PATH
+
+    existing = []
+    if PAPER_TRADES_PATH.exists():
+        import json
+        with open(PAPER_TRADES_PATH) as f:
+            existing = json.load(f)
+
+    timestamp = datetime.now(timezone.utc).isoformat()
+
+    for e in edges:
+        best = "a" if e["edge_a"] > e["edge_b"] else "b"
+        entry = {
+            "timestamp": timestamp,
+            "title": e["title"],
+            "series": e["series"],
+            "bet_on": e[f"player_{best}"],
+            "opponent": e[f"player_{'b' if best == 'a' else 'a'}"],
+            "model_prob": round(e[f"model_prob_{best}"], 4),
+            "pm_price": round(e[f"pm_price_{best}"], 4),
+            "edge": round(e[f"edge_{best}"], 4),
+            "volume": e["volume"],
+            "outcome": None,  # filled in later when market resolves
+        }
+        existing.append(entry)
+
+    import json
+    PAPER_TRADES_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(PAPER_TRADES_PATH, "w") as f:
+        json.dump(existing, f, indent=2)
+
+    print(f"\nLogged {len(edges)} paper trades to {PAPER_TRADES_PATH}")
 
 
 if __name__ == "__main__":

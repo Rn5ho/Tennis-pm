@@ -19,6 +19,10 @@ REQUEST_DELAY_SECONDS = 1  # delay between API calls to be polite
 
 # Betting defaults (revisit with real data)
 MIN_EDGE_THRESHOLD = 0.05  # 5% minimum edge to consider a bet
+MIN_VOLUME = 500           # skip markets with less than $500 volume (price is noise)
+
+# Paper trading
+PAPER_TRADES_PATH = PROJECT_ROOT / "data" / "paper_trades.json"
 
 # --- Phase 1: Model Training ---
 

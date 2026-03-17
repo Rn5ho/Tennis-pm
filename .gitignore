@@ -4,4 +4,8 @@ data/scraper.log
 data/sackmann/
 data/models/
 data/evaluation/
+data/sr_daily_cache/
+data/elo_state.json
+data/name_cache.json
+data/paper_trades.json
 .env
