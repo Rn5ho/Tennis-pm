@@ -1,0 +1,2189 @@
+{
+  "Abedallah Shelbayh": {
+    "sackmann_id": "209406",
+    "sackmann_name": "Abedallah Shelbayh",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Adam Walton": {
+    "sackmann_id": "200443",
+    "sackmann_name": "Adam Walton",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Adrian Mannarino": {
+    "sackmann_id": "105173",
+    "sackmann_name": "Adrian Mannarino",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Ajla Tomljanovic": {
+    "sackmann_id": "201548",
+    "sackmann_name": "Ajla Tomljanovic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alafia Ayeni": {
+    "sackmann_id": "200366",
+    "sackmann_name": "Olukayode Alafia Damina Ayeni",
+    "confidence": 0.834,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Alan Magadan": {
+    "sackmann_id": "209246",
+    "sackmann_name": "Alan Magadan",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alan Rubio": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.795,
+    "method": "no_match",
+    "verified": false
+  },
+  "Alejandro Hayen": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.75,
+    "method": "no_match",
+    "verified": false
+  },
+  "Alejandro Moro Canas": {
+    "sackmann_id": "208279",
+    "sackmann_name": "Alejandro Moro Canas",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alejandro Tabilo": {
+    "sackmann_id": "126214",
+    "sackmann_name": "Alejandro Tabilo",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Aleksandar Kovacevic": {
+    "sackmann_id": "206499",
+    "sackmann_name": "Aleksandar Kovacevic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Aleksandar Vukic": {
+    "sackmann_id": "126846",
+    "sackmann_name": "Aleksandar Vukic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alex Barrena": {
+    "sackmann_id": "209875",
+    "sackmann_name": "Alex Barrena",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alex Hernandez": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.0,
+    "method": "not_in_sackmann",
+    "verified": false
+  },
+  "Alex Molcan": {
+    "sackmann_id": "144684",
+    "sackmann_name": "Alex Molcan",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alex Santino Nunez": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.0,
+    "method": "not_in_sackmann",
+    "verified": false
+  },
+  "Alexander Blockx": {
+    "sackmann_id": "210696",
+    "sackmann_name": "Alexander Blockx",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alexander Shevchenko": {
+    "sackmann_id": "207686",
+    "sackmann_name": "Alexander Shevchenko",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alexandre Muller": {
+    "sackmann_id": "124186",
+    "sackmann_name": "Alexandre Muller",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alexei Popyrin": {
+    "sackmann_id": "200615",
+    "sackmann_name": "Alexei Popyrin",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alexis Galarneau": {
+    "sackmann_id": "200008",
+    "sackmann_name": "Alexis Galarneau",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Aliaksandra Sasnovich": {
+    "sackmann_id": "205925",
+    "sackmann_name": "Aliaksandra Sasnovich",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Alvaro Guillen Meza": {
+    "sackmann_id": "208223",
+    "sackmann_name": "Alvaro Guillen Meza",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Anastasia Zakharova": {
+    "sackmann_id": "220435",
+    "sackmann_name": "Anastasia Zakharova",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Andrea Collarini": {
+    "sackmann_id": "105911",
+    "sackmann_name": "Andrea Collarini",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Andrea Pellegrino": {
+    "sackmann_id": "126504",
+    "sackmann_name": "Andrea Pellegrino",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Anna Blinkova": {
+    "sackmann_id": "215020",
+    "sackmann_name": "Anna Blinkova",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Antonia Ruzic": {
+    "sackmann_id": "222045",
+    "sackmann_name": "Antonia Ruzic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Arthur Fery": {
+    "sackmann_id": "209259",
+    "sackmann_name": "Arthur Fery",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Arthur Gea": {
+    "sackmann_id": "210338",
+    "sackmann_name": "Arthur Gea",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Aryan Shah Shah": {
+    "sackmann_id": "211325",
+    "sackmann_name": "Aryan Shah",
+    "confidence": 0.92,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Ashlyn Krueger": {
+    "sackmann_id": "221909",
+    "sackmann_name": "Ashlyn Krueger",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Auger-Aliassime": {
+    "sackmann_id": "200000",
+    "sackmann_name": "Felix Auger Aliassime",
+    "confidence": 0.933,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Beatriz Haddad Maia": {
+    "sackmann_id": "206242",
+    "sackmann_name": "Beatriz Haddad Maia",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Beibit Zhukayev": {
+    "sackmann_id": "202320",
+    "sackmann_name": "Beibit Zhukayev",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Benjamin Bonzi": {
+    "sackmann_id": "126127",
+    "sackmann_name": "Benjamin Bonzi",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Benjamin Hassan": {
+    "sackmann_id": "133975",
+    "sackmann_name": "Benjamin Hassan",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Bergs": {
+    "sackmann_id": "200267",
+    "sackmann_name": "Zizou Bergs",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Bianca Andreescu": {
+    "sackmann_id": "215370",
+    "sackmann_name": "Bianca Andreescu",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Billy Harris": {
+    "sackmann_id": "126129",
+    "sackmann_name": "Billy Harris",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Birrell": {
+    "sackmann_id": "214040",
+    "sackmann_name": "Kimberly Birrell",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Blanchet": {
+    "sackmann_id": "200259",
+    "sackmann_name": "Ugo Blanchet",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Blinkova": {
+    "sackmann_id": "215020",
+    "sackmann_name": "Anna Blinkova",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Botic van de Zandschulp": {
+    "sackmann_id": "122298",
+    "sackmann_name": "Botic Van De Zandschulp",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Buse": {
+    "sackmann_id": "209860",
+    "sackmann_name": "Ignacio Buse",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Camila Osorio": {
+    "sackmann_id": "215785",
+    "sackmann_name": "Camila Osorio",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Camilo Ugo Carabelli": {
+    "sackmann_id": "200116",
+    "sackmann_name": "Camilo Ugo Carabelli",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Cannon Kingsley": {
+    "sackmann_id": "207992",
+    "sackmann_name": "Cannon Kingsley",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Carlos Sanchez Jover": {
+    "sackmann_id": "202199",
+    "sackmann_name": "Carlos Sanchez Jover",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Charaeva": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.571,
+    "method": "no_match",
+    "verified": false
+  },
+  "Christian Langmo": {
+    "sackmann_id": "132052",
+    "sackmann_name": "Christian Langmo",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Christoph Negritu": {
+    "sackmann_id": "122352",
+    "sackmann_name": "Christoph Negritu",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Christopher O'Connell": {
+    "sackmann_id": "106331",
+    "sackmann_name": "Christopher Oconnell",
+    "confidence": 0.976,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Clarke": {
+    "sackmann_id": "126652",
+    "sackmann_name": "Jay Clarke",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Cocciaretto": {
+    "sackmann_id": "220714",
+    "sackmann_name": "Elisabetta Cocciaretto",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Coleman Wong": {
+    "sackmann_id": "209409",
+    "sackmann_name": "Coleman Wong",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Colton Smith": {
+    "sackmann_id": "212256",
+    "sackmann_name": "Colton Smith",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Daniel": {
+    "sackmann_id": "106121",
+    "sackmann_name": "Taro Daniel",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Daniel Altmaier": {
+    "sackmann_id": "127157",
+    "sackmann_name": "Daniel Altmaier",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Daniel Michalski": {
+    "sackmann_id": "207415",
+    "sackmann_name": "Daniel Michalski",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Darja Semenistaja": {
+    "sackmann_id": "221985",
+    "sackmann_name": "Darja Semenistaja",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Darja Vidmanova": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.69,
+    "method": "no_match",
+    "verified": false
+  },
+  "Darwin Blanch": {
+    "sackmann_id": "210464",
+    "sackmann_name": "Darwin Blanch",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "David Jorda Sanchis": {
+    "sackmann_id": "122554",
+    "sackmann_name": "David Jorda Sanchis",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Dayana Yastremska": {
+    "sackmann_id": "215035",
+    "sackmann_name": "Dayana Yastremska",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Denis Shapovalov": {
+    "sackmann_id": "133430",
+    "sackmann_name": "Denis Shapovalov",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Diane Parry": {
+    "sackmann_id": "220348",
+    "sackmann_name": "Diane Parry",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Dimitar Kuzmanov": {
+    "sackmann_id": "106220",
+    "sackmann_name": "Dimitar Kuzmanov",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Djokovic": {
+    "sackmann_id": "104925",
+    "sackmann_name": "Novak Djokovic",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Donna Vekic": {
+    "sackmann_id": "202499",
+    "sackmann_name": "Donna Vekic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Draper": {
+    "sackmann_id": "207733",
+    "sackmann_name": "Jack Draper",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Draxl": {
+    "sackmann_id": "208119",
+    "sackmann_name": "Liam Draxl",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Droguet": {
+    "sackmann_id": "208169",
+    "sackmann_name": "Titouan Droguet",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Duckworth": {
+    "sackmann_id": "105902",
+    "sackmann_name": "James Duckworth",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Duje Ajdukovic": {
+    "sackmann_id": "207213",
+    "sackmann_name": "Duje Ajdukovic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Dusan Obradovic": {
+    "sackmann_id": "207708",
+    "sackmann_name": "Dusan Obradovic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Ella Seidel": {
+    "sackmann_id": "230870",
+    "sackmann_name": "Ella Seidel",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Elmer Moeller": {
+    "sackmann_id": "209284",
+    "sackmann_name": "Elmer Moller",
+    "confidence": 0.96,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Elsa Jacquemot": {
+    "sackmann_id": "221039",
+    "sackmann_name": "Elsa Jacquemot",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Elvina Kalieva": {
+    "sackmann_id": "220722",
+    "sackmann_name": "Elvina Kalieva",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Emiliana Arango": {
+    "sackmann_id": "215306",
+    "sackmann_name": "Emiliana Arango",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Emilio Nava": {
+    "sackmann_id": "207182",
+    "sackmann_name": "Emilio Nava",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Ethan Quinn": {
+    "sackmann_id": "210319",
+    "sackmann_name": "Ethan Quinn",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Fabian Marozsan": {
+    "sackmann_id": "206681",
+    "sackmann_name": "Fabian Marozsan",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Facundo Mena": {
+    "sackmann_id": "106057",
+    "sackmann_name": "Facundo Mena",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Felix Gill": {
+    "sackmann_id": "208269",
+    "sackmann_name": "Felix Gill",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Fery": {
+    "sackmann_id": "209259",
+    "sackmann_name": "Arthur Fery",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Filip Pieczonka": {
+    "sackmann_id": "210091",
+    "sackmann_name": "Filip Pieczonka",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Francesca Jones": {
+    "sackmann_id": "215936",
+    "sackmann_name": "Francesca Jones",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Francisco Comesana": {
+    "sackmann_id": "207681",
+    "sackmann_name": "Francisco Comesana",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Franco Roncadelli": {
+    "sackmann_id": "208364",
+    "sackmann_name": "Franco Roncadelli",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Frederico Ferreira Silva": {
+    "sackmann_id": "106393",
+    "sackmann_name": "Frederico Ferreira Silva",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Gabriel Diallo": {
+    "sackmann_id": "209113",
+    "sackmann_name": "Gabriel Diallo",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Gabriela Ruse": {
+    "sackmann_id": "211817",
+    "sackmann_name": "Elena Gabriela Ruse",
+    "confidence": 0.925,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Galfi": {
+    "sackmann_id": "213646",
+    "sackmann_name": "Dalma Galfi",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Garland": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.6,
+    "method": "no_match",
+    "verified": false
+  },
+  "Gauff": {
+    "sackmann_id": "221103",
+    "sackmann_name": "Coco Gauff",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Genaro Alberto Olivieri": {
+    "sackmann_id": "144821",
+    "sackmann_name": "Genaro Alberto Olivieri",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Gianluca Cadenasso": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.688,
+    "method": "no_match",
+    "verified": false
+  },
+  "Gibson": {
+    "sackmann_id": "221883",
+    "sackmann_name": "Talia Gibson",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Gilles Arnaud Bailly": {
+    "sackmann_id": "211451",
+    "sackmann_name": "Gilles Arnaud Bailly",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Giovanni Mpetshi Perricard": {
+    "sackmann_id": "208659",
+    "sackmann_name": "Giovanni Mpetshi Perricard",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Gonzalo Bueno": {
+    "sackmann_id": "208293",
+    "sackmann_name": "Gonzalo Bueno",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Gonzalo Villanueva": {
+    "sackmann_id": "106380",
+    "sackmann_name": "Gonzalo Villanueva",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Gracheva": {
+    "sackmann_id": "219875",
+    "sackmann_name": "Varvara Gracheva",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Grenier": {
+    "sackmann_id": "126409",
+    "sackmann_name": "Hugo Grenier",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Grigor Dimitrov": {
+    "sackmann_id": "105777",
+    "sackmann_name": "Grigor Dimitrov",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Gueymard-Wayenburg": {
+    "sackmann_id": "209849",
+    "sackmann_name": "Sascha Gueymard Wayenburg",
+    "confidence": 0.935,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Guido Justo": {
+    "sackmann_id": "207815",
+    "sackmann_name": "Guido Ivan Justo",
+    "confidence": 0.926,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Guo": {
+    "sackmann_id": "215250",
+    "sackmann_name": "Hanyu Guo",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Hailey Baptiste": {
+    "sackmann_id": "221024",
+    "sackmann_name": "Hailey Baptiste",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Harris": {
+    "sackmann_id": "144750",
+    "sackmann_name": "Lloyd Harris",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Henri Squire": {
+    "sackmann_id": "202260",
+    "sackmann_name": "Henri Squire",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Hernando Escurra": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.711,
+    "method": "no_match",
+    "verified": false
+  },
+  "Hijikata": {
+    "sackmann_id": "208014",
+    "sackmann_name": "Rinky Hijikata",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Holmgren": {
+    "sackmann_id": "200416",
+    "sackmann_name": "August Holmgren",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Hontama": {
+    "sackmann_id": "215988",
+    "sackmann_name": "Mai Hontama",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Hubert Hurkacz": {
+    "sackmann_id": "128034",
+    "sackmann_name": "Hubert Hurkacz",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Huesler": {
+    "sackmann_id": "144817",
+    "sackmann_name": "Marc Andrea Huesler",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Ignacio Buse": {
+    "sackmann_id": "209860",
+    "sackmann_name": "Ignacio Buse",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Inglis": {
+    "sackmann_id": "213666",
+    "sackmann_name": "Maddison Inglis",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Ivan Gakhov": {
+    "sackmann_id": "123809",
+    "sackmann_name": "Ivan Gakhov",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jacob Fearnley": {
+    "sackmann_id": "207985",
+    "sackmann_name": "Jacob Fearnley",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jaime Faria": {
+    "sackmann_id": "210262",
+    "sackmann_name": "Jaime Faria",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jake Delaney": {
+    "sackmann_id": "117359",
+    "sackmann_name": "Jake Delaney",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "James Duckworth": {
+    "sackmann_id": "105902",
+    "sackmann_name": "James Duckworth",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jan-Lennard Struff": {
+    "sackmann_id": "105526",
+    "sackmann_name": "Jan Lennard Struff",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Janice Tjen": {
+    "sackmann_id": "222145",
+    "sackmann_name": "Janice Tjen",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jaqueline Cristian": {
+    "sackmann_id": "211713",
+    "sackmann_name": "Jaqueline Cristian",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Javier Barranco Cosano": {
+    "sackmann_id": "200266",
+    "sackmann_name": "Javier Barranco Cosano",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jay Clarke": {
+    "sackmann_id": "126652",
+    "sackmann_name": "Jay Clarke",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jennifer Brady": {
+    "sackmann_id": "206108",
+    "sackmann_name": "Jennifer Brady",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jenson Brooksby": {
+    "sackmann_id": "202385",
+    "sackmann_name": "Jenson Brooksby",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jesper de Jong": {
+    "sackmann_id": "207411",
+    "sackmann_name": "Jesper De Jong",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jessica Bouzas Maneiro": {
+    "sackmann_id": "222601",
+    "sackmann_name": "Jessica Bouzas Maneiro",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Joao Fonseca": {
+    "sackmann_id": "211663",
+    "sackmann_name": "Joao Fonseca",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Joao Pedro Didoni Bonini": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.6,
+    "method": "no_match",
+    "verified": false
+  },
+  "John Sperle": {
+    "sackmann_id": "210145",
+    "sackmann_name": "John Sperle",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jonas Forejtek": {
+    "sackmann_id": "207797",
+    "sackmann_name": "Jonas Forejtek",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jovic": {
+    "sackmann_id": "260300",
+    "sackmann_name": "Iva Jovic",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Juan Carlos Prado": {
+    "sackmann_id": "210178",
+    "sackmann_name": "Juan Carlos Prado Angelo",
+    "confidence": 0.829,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Juan Pablo Ficovich": {
+    "sackmann_id": "126663",
+    "sackmann_name": "Juan Pablo Ficovich",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Juan Pablo Varillas": {
+    "sackmann_id": "122669",
+    "sackmann_name": "Juan Pablo Varillas",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Justin Engel": {
+    "sackmann_id": "211514",
+    "sackmann_name": "Justin Engel",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Juvan": {
+    "sackmann_id": "215219",
+    "sackmann_name": "Kaja Juvan",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Kamil Majchrzak": {
+    "sackmann_id": "111794",
+    "sackmann_name": "Kamil Majchrzak",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Kamilla Rakhimova": {
+    "sackmann_id": "215872",
+    "sackmann_name": "Kamilla Rakhimova",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Katerina Siniakova": {
+    "sackmann_id": "211701",
+    "sackmann_name": "Katerina Siniakova",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Katie Boulter": {
+    "sackmann_id": "211107",
+    "sackmann_name": "Katie Boulter",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Katie Volynets": {
+    "sackmann_id": "220465",
+    "sackmann_name": "Katie Volynets",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Keegan Smith": {
+    "sackmann_id": "202333",
+    "sackmann_name": "Keegan Smith",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Kimberly Birrell": {
+    "sackmann_id": "214040",
+    "sackmann_name": "Kimberly Birrell",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Kimmer Coppejans": {
+    "sackmann_id": "106293",
+    "sackmann_name": "Kimmer Coppejans",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Kinoshita": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.56,
+    "method": "no_match",
+    "verified": false
+  },
+  "Koike": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.533,
+    "method": "no_match",
+    "verified": false
+  },
+  "Korpatsch": {
+    "sackmann_id": "211337",
+    "sackmann_name": "Tamara Korpatsch",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Krueger": {
+    "sackmann_id": "221909",
+    "sackmann_name": "Ashlyn Krueger",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Kukushkin": {
+    "sackmann_id": "105062",
+    "sackmann_name": "Mikhail Kukushkin",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Lajal": {
+    "sackmann_id": "210136",
+    "sackmann_name": "Mark Lajal",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Laura Siegemund": {
+    "sackmann_id": "201696",
+    "sackmann_name": "Laura Siegemund",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Laurent Lokoli": {
+    "sackmann_id": "106362",
+    "sackmann_name": "Laurent Lokoli",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Lautaro Midon": {
+    "sackmann_id": "210510",
+    "sackmann_name": "Lautaro Midon",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Lehecka": {
+    "sackmann_id": "208103",
+    "sackmann_name": "Jiri Lehecka",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Liam Draxl": {
+    "sackmann_id": "208119",
+    "sackmann_name": "Liam Draxl",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Linda Fruhvirtova": {
+    "sackmann_id": "222258",
+    "sackmann_name": "Linda Fruhvirtova",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Liu": {
+    "sackmann_id": "214906",
+    "sackmann_name": "Claire Liu",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Lorenzo Giustino": {
+    "sackmann_id": "105841",
+    "sackmann_name": "Lorenzo Giustino",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Louis Wessels": {
+    "sackmann_id": "144923",
+    "sackmann_name": "Louis Wessels",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Luca Van Assche": {
+    "sackmann_id": "209414",
+    "sackmann_name": "Luca Van Assche",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Luciano Emanuel Ambrogi": {
+    "sackmann_id": "210377",
+    "sackmann_name": "Luciano Emanuel Ambrogi",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Lukas Neumayer": {
+    "sackmann_id": "209903",
+    "sackmann_name": "Lukas Neumayer",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Lulu Sun": {
+    "sackmann_id": "215138",
+    "sackmann_name": "Lulu Sun",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Magda Linette": {
+    "sackmann_id": "202663",
+    "sackmann_name": "Magda Linette",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Magdalena Frech": {
+    "sackmann_id": "211684",
+    "sackmann_name": "Magdalena Frech",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Marc Polmans": {
+    "sackmann_id": "117360",
+    "sackmann_name": "Marc Polmans",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Marc-Andrea Huesler": {
+    "sackmann_id": "144817",
+    "sackmann_name": "Marc Andrea Huesler",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Mariano Kestelboim": {
+    "sackmann_id": "126183",
+    "sackmann_name": "Mariano Kestelboim",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Marin Cilic": {
+    "sackmann_id": "105227",
+    "sackmann_name": "Marin Cilic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Martin Damm": {
+    "sackmann_id": "102093",
+    "sackmann_name": "Martin Damm",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Martin Krumich": {
+    "sackmann_id": "209322",
+    "sackmann_name": "Martin Krumich",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Martin Landaluce": {
+    "sackmann_id": "211776",
+    "sackmann_name": "Martin Landaluce",
+    "confidence": 0.5,
+    "method": "exact_ambiguous (2 candidates)",
+    "candidates": [
+      {
+        "id": "211776",
+        "name": "Martin Landaluce"
+      },
+      {
+        "id": "212021",
+        "name": "Martin Landaluce"
+      }
+    ],
+    "verified": true
+  },
+  "Mary Stoiana": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.636,
+    "method": "no_match",
+    "verified": false
+  },
+  "Masarova": {
+    "sackmann_id": "214119",
+    "sackmann_name": "Rebeka Masarova",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Matej Dodig": {
+    "sackmann_id": "212063",
+    "sackmann_name": "Matej Dodig",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Matteo Arnaldi": {
+    "sackmann_id": "208286",
+    "sackmann_name": "Matteo Arnaldi",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Matteo Berrettini": {
+    "sackmann_id": "126610",
+    "sackmann_name": "Matteo Berrettini",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Mattia Bellucci": {
+    "sackmann_id": "208233",
+    "sackmann_name": "Mattia Bellucci",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Matyas Cerny": {
+    "sackmann_id": "210063",
+    "sackmann_name": "Matyas Cerny",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Max Alcala Gurri": {
+    "sackmann_id": "208024",
+    "sackmann_name": "Max Alcala Gurri",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Max Houkes": {
+    "sackmann_id": "208069",
+    "sackmann_name": "Max Houkes",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "McCartney Kessler": {
+    "sackmann_id": "220520",
+    "sackmann_name": "Mccartney Kessler",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "McNally": {
+    "sackmann_id": "216083",
+    "sackmann_name": "Caty Mcnally",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Medvedev": {
+    "sackmann_id": "106421",
+    "sackmann_name": "Daniil Medvedev",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Michael Mmoh": {
+    "sackmann_id": "111581",
+    "sackmann_name": "Michael Mmoh",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Miguel Tobon": {
+    "sackmann_id": "101495",
+    "sackmann_name": "Miguel Tobon",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Mili Poljicak": {
+    "sackmann_id": "209890",
+    "sackmann_name": "Mili Poljicak",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Minnen": {
+    "sackmann_id": "213889",
+    "sackmann_name": "Greet Minnen",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Miomir Kecmanovic": {
+    "sackmann_id": "200175",
+    "sackmann_name": "Miomir Kecmanovic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Misolic": {
+    "sackmann_id": "209209",
+    "sackmann_name": "Filip Misolic",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Muchova": {
+    "sackmann_id": "214096",
+    "sackmann_name": "Karolina Muchova",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Murkel Dellien": {
+    "sackmann_id": "123961",
+    "sackmann_name": "Murkel Alejandro Dellien Velasco",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Murphy Cassone": {
+    "sackmann_id": "209326",
+    "sackmann_name": "Murphy Cassone",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Musetti": {
+    "sackmann_id": "207518",
+    "sackmann_name": "Lorenzo Musetti",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Nerman Fatic": {
+    "sackmann_id": "123983",
+    "sackmann_name": "Nerman Fatic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Nikola Bartunkova": {
+    "sackmann_id": "223360",
+    "sackmann_name": "Nikola Bartunkova",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Nikolas Sanchez Izquierdo": {
+    "sackmann_id": "207663",
+    "sackmann_name": "Nikolas Sanchez Izquierdo",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Nikoloz Basilashvili": {
+    "sackmann_id": "105932",
+    "sackmann_name": "Nikoloz Basilashvili",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Nuno Borges": {
+    "sackmann_id": "132686",
+    "sackmann_name": "Nuno Borges",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Okamura": {
+    "sackmann_id": "110773",
+    "sackmann_name": "Issei Okamura",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Oksana Selekhmeteva": {
+    "sackmann_id": "221407",
+    "sackmann_name": "Oksana Selekhmeteva",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Osorio": {
+    "sackmann_id": "215785",
+    "sackmann_name": "Camila Osorio",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Osuigwe": {
+    "sackmann_id": "215992",
+    "sackmann_name": "Whitney Osuigwe",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Pablo Carreno Busta": {
+    "sackmann_id": "105807",
+    "sackmann_name": "Pablo Carreno Busta",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Pablo Llamas Ruiz": {
+    "sackmann_id": "208010",
+    "sackmann_name": "Pablo Llamas Ruiz",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Paul": {
+    "sackmann_id": "126205",
+    "sackmann_name": "Tommy Paul",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Pedro Boscardin Dias": {
+    "sackmann_id": "208046",
+    "sackmann_name": "Pedro Boscardin Dias",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Pegula": {
+    "sackmann_id": "202468",
+    "sackmann_name": "Jessica Pegula",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Petra Marcinko": {
+    "sackmann_id": "238075",
+    "sackmann_name": "Petra Marcinko",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Pol Martin Tiffon": {
+    "sackmann_id": "207546",
+    "sackmann_name": "Pol Martin Tiffon",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Prizmic": {
+    "sackmann_id": "209976",
+    "sackmann_name": "Dino Prizmic",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Purtseladze": {
+    "sackmann_id": "208182",
+    "sackmann_name": "Saba Purtseladze",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Putintseva": {
+    "sackmann_id": "201709",
+    "sackmann_name": "Yulia Putintseva",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Quinn": {
+    "sackmann_id": "210319",
+    "sackmann_name": "Ethan Quinn",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Raducanu": {
+    "sackmann_id": "221054",
+    "sackmann_name": "Emma Raducanu",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Rafael Jodar": {
+    "sackmann_id": "212588",
+    "sackmann_name": "Rafael Jodar",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Rakhimova": {
+    "sackmann_id": "215872",
+    "sackmann_name": "Kamilla Rakhimova",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Raphael Collignon": {
+    "sackmann_id": "209920",
+    "sackmann_name": "Raphael Collignon",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Rebecca Sramkova": {
+    "sackmann_id": "211685",
+    "sackmann_name": "Rebecca Sramkova",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Rebeka Masarova": {
+    "sackmann_id": "214119",
+    "sackmann_name": "Rebeka Masarova",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Rei Sakamoto": {
+    "sackmann_id": "210536",
+    "sackmann_name": "Rei Sakamoto",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Reilly Opelka": {
+    "sackmann_id": "124187",
+    "sackmann_name": "Reilly Opelka",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Renata Zarazua": {
+    "sackmann_id": "213887",
+    "sackmann_name": "Renata Zarazua",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Rinderknech": {
+    "sackmann_id": "126239",
+    "sackmann_name": "Arthur Rinderknech",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Rinky Hijikata": {
+    "sackmann_id": "208014",
+    "sackmann_name": "Rinky Hijikata",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Roberto Bautista Agut": {
+    "sackmann_id": "105138",
+    "sackmann_name": "Roberto Bautista Agut",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Roberto Carballes Baena": {
+    "sackmann_id": "106148",
+    "sackmann_name": "Roberto Carballes Baena",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Robin Catry": {
+    "sackmann_id": "210714",
+    "sackmann_name": "Robin Catry",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Rodrigo Alujas": {
+    "sackmann_id": "212286",
+    "sackmann_name": "Rodrigo Alujas ",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Rodrigo Pacheco": {
+    "sackmann_id": "210202",
+    "sackmann_name": "Rodrigo Pacheco Mendez",
+    "confidence": 0.811,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Ruse": {
+    "sackmann_id": "211817",
+    "sackmann_name": "Elena Gabriela Ruse",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Ruzic": {
+    "sackmann_id": "222045",
+    "sackmann_name": "Antonia Ruzic",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Saba Purtseladze": {
+    "sackmann_id": "208182",
+    "sackmann_name": "Saba Purtseladze",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Sachko": {
+    "sackmann_id": "126964",
+    "sackmann_name": "Vitaliy Sachko",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Saito": {
+    "sackmann_id": "260170",
+    "sackmann_name": "Sara Saito",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Sakamoto": {
+    "sackmann_id": "210536",
+    "sackmann_name": "Rei Sakamoto",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Sakatsume": {
+    "sackmann_id": "221124",
+    "sackmann_name": "Himeno Sakatsume",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Salkova": {
+    "sackmann_id": "222966",
+    "sackmann_name": "Dominika Salkova",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Samsonova": {
+    "sackmann_id": "214643",
+    "sackmann_name": "Liudmila Samsonova",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Samuele Pieri": {
+    "sackmann_id": "210129",
+    "sackmann_name": "Samuele Pieri",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Santiago Rodriguez Taverna": {
+    "sackmann_id": "144973",
+    "sackmann_name": "Santiago Fa Rodriguez Taverna",
+    "confidence": 0.978,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Sasnovich": {
+    "sackmann_id": "205925",
+    "sackmann_name": "Aliaksandra Sasnovich",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Sebastian Ofner": {
+    "sackmann_id": "124116",
+    "sackmann_name": "Sebastian Ofner",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Selekhmeteva": {
+    "sackmann_id": "221407",
+    "sackmann_name": "Oksana Selekhmeteva",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Sharma": {
+    "sackmann_id": "206292",
+    "sackmann_name": "Astra Sharma",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Sho Shimabukuro": {
+    "sackmann_id": "200647",
+    "sackmann_name": "Sho Shimabukuro",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Shuai Zhang": {
+    "sackmann_id": "201533",
+    "sackmann_name": "Shuai Zhang",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Siegemund": {
+    "sackmann_id": "201696",
+    "sackmann_name": "Laura Siegemund",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Simakin": {
+    "sackmann_id": "209899",
+    "sackmann_name": "Ilia Simakin",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Simona Waltert": {
+    "sackmann_id": "215899",
+    "sackmann_name": "Simona Waltert",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Sinja Kraus": {
+    "sackmann_id": "221257",
+    "sackmann_name": "Sinja Kraus",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Slavic": {
+    "sackmann_id": "208302",
+    "sackmann_name": "Nikola Slavic",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Sloane Stephens": {
+    "sackmann_id": "201585",
+    "sackmann_name": "Sloane Stephens",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Sofia Kenin": {
+    "sackmann_id": "213550",
+    "sackmann_name": "Sofia Kenin",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Solana Sierra": {
+    "sackmann_id": "221333",
+    "sackmann_name": "Solana Sierra",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Sonmez": {
+    "sackmann_id": "220309",
+    "sackmann_name": "Zeynep Sonmez",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Sorana Cirstea": {
+    "sackmann_id": "201514",
+    "sackmann_name": "Sorana Cirstea",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Starodubtseva": {
+    "sackmann_id": "263857",
+    "sackmann_name": "Yuliia Starodubtseva",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Stefan Kozlov": {
+    "sackmann_id": "111578",
+    "sackmann_name": "Stefan Kozlov",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Stefan Palosi": {
+    "sackmann_id": "207502",
+    "sackmann_name": "Stefan Palosi",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Stefano Travaglia": {
+    "sackmann_id": "105882",
+    "sackmann_name": "Stefano Travaglia",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Stricker": {
+    "sackmann_id": "208502",
+    "sackmann_name": "Dominic Stricker",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Sumit Nagal": {
+    "sackmann_id": "111576",
+    "sackmann_name": "Sumit Nagal",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Takeru Yuzuki": {
+    "sackmann_id": "208871",
+    "sackmann_name": "Takeru Yuzuki",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Talia Gibson": {
+    "sackmann_id": "221883",
+    "sackmann_name": "Talia Gibson",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Taro Daniel": {
+    "sackmann_id": "106121",
+    "sackmann_name": "Taro Daniel",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Tatjana Maria": {
+    "sackmann_id": "213583",
+    "sackmann_name": "Tatjana Maria",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Terence Atmane": {
+    "sackmann_id": "209279",
+    "sackmann_name": "Terence Atmane",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Thiago Agustin Tirante": {
+    "sackmann_id": "202058",
+    "sackmann_name": "Thiago Agustin Tirante",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Tiago Pereira": {
+    "sackmann_id": "211500",
+    "sackmann_name": "Tiago Pereira",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Tibo Colson": {
+    "sackmann_id": "209518",
+    "sackmann_name": "Tibo Colson",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Tien": {
+    "sackmann_id": "210530",
+    "sackmann_name": "Learner Tien",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Tomas Machac": {
+    "sackmann_id": "207830",
+    "sackmann_name": "Tomas Machac",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Tomic": {
+    "sackmann_id": "106071",
+    "sackmann_name": "Bernard Tomic",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Tomljanovic": {
+    "sackmann_id": "201548",
+    "sackmann_name": "Ajla Tomljanovic",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Topo": {
+    "sackmann_id": "209916",
+    "sackmann_name": "Marko Topo",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Tyler Zink": {
+    "sackmann_id": "208342",
+    "sackmann_name": "Tyler Zink",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Valentova": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.64,
+    "method": "no_match",
+    "verified": false
+  },
+  "Varvara Gracheva": {
+    "sackmann_id": "219875",
+    "sackmann_name": "Varvara Gracheva",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Varvara Lepchenko": {
+    "sackmann_id": "201478",
+    "sackmann_name": "Varvara Lepchenko",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Venus Williams": {
+    "sackmann_id": "200748",
+    "sackmann_name": "Venus Williams",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Viktorija Golubic": {
+    "sackmann_id": "203530",
+    "sackmann_name": "Viktorija Golubic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Vilius Gaubas": {
+    "sackmann_id": "209147",
+    "sackmann_name": "Vilius Gaubas",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Vinciguerra": {
+    "sackmann_id": "212478",
+    "sackmann_name": "William Rejchtman Vinciguerra",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Volynets": {
+    "sackmann_id": "220465",
+    "sackmann_name": "Katie Volynets",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Vondrousova": {
+    "sackmann_id": "214954",
+    "sackmann_name": "Marketa Vondrousova",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Williams": {
+    "sackmann_id": "200748",
+    "sackmann_name": "Venus Williams",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Yang": {
+    "sackmann_id": "105738",
+    "sackmann_name": "Tsung Hua Yang",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Yannick Hanfmann": {
+    "sackmann_id": "105870",
+    "sackmann_name": "Yannick Hanfmann",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Yevseyev": {
+    "sackmann_id": "106187",
+    "sackmann_name": "Denis Yevseyev",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Yibing Wu": {
+    "sackmann_id": "200059",
+    "sackmann_name": "Yibing Wu",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Yue Yuan": {
+    "sackmann_id": "206294",
+    "sackmann_name": "Yue Yuan",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Yulia Putintseva": {
+    "sackmann_id": "201709",
+    "sackmann_name": "Yulia Putintseva",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Yulia Starodubtseva": {
+    "sackmann_id": "263857",
+    "sackmann_name": "Yuliia Starodubtseva",
+    "confidence": 0.99,
+    "method": "fuzzy",
+    "verified": true
+  },
+  "Yunchaokete Bu": {
+    "sackmann_id": null,
+    "sackmann_name": null,
+    "confidence": 0.786,
+    "method": "no_match",
+    "verified": false
+  },
+  "Zachary Svajda": {
+    "sackmann_id": "208260",
+    "sackmann_name": "Zachary Svajda",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Zahraj": {
+    "sackmann_id": "200452",
+    "sackmann_name": "Patrick Zahraj",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Zeppieri": {
+    "sackmann_id": "206748",
+    "sackmann_name": "Giulio Zeppieri",
+    "confidence": 0.9,
+    "method": "lastname_unique",
+    "verified": true
+  },
+  "Zeynep Sonmez": {
+    "sackmann_id": "220309",
+    "sackmann_name": "Zeynep Sonmez",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Zhizhen Zhang": {
+    "sackmann_id": "111190",
+    "sackmann_name": "Zhizhen Zhang",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Zhu": {
+    "sackmann_id": "202684",
+    "sackmann_name": "Lin Zhu",
+    "confidence": 1.0,
+    "method": "manual",
+    "verified": true
+  },
+  "Zizou Bergs": {
+    "sackmann_id": "200267",
+    "sackmann_name": "Zizou Bergs",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  }
+}
