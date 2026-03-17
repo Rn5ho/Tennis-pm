@@ -1,0 +1,41 @@
+name: Scrape Polymarket Tennis Odds
+
+on:
+  schedule:
+    # Every 30 minutes
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Allow manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout dev branch
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Run scraper
+        run: python run_scraper.py
+
+      - name: Run backfill
+        run: python run_scraper.py --backfill
+
+      - name: Commit and push if data changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/tennis_pm.db
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "auto: scraper data update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
