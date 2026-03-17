@@ -20,27 +20,11 @@ from config.settings import (
     TRAIN_YEARS, VAL_YEARS, TEST_YEARS, ELO_BURN_IN_YEARS,
     MODEL_DIR, EVAL_DIR,
 )
+from model import CalibratedModel
 from model.features import load_matches, build_feature_matrix, FEATURE_NAMES
 from model.evaluate import (
     evaluate_model, plot_calibration, plot_feature_importance, compare_models,
 )
-
-
-class CalibratedModel:
-    """Wraps a classifier with isotonic regression calibration."""
-
-    def __init__(self, base_model, calibrator):
-        self.base_model = base_model
-        self.calibrator = calibrator
-
-    def predict_proba(self, X):
-        raw = self.base_model.predict_proba(X)[:, 1]
-        cal = self.calibrator.predict(raw)
-        cal = np.clip(cal, 0.001, 0.999)
-        return np.column_stack([1 - cal, cal])
-
-    def predict(self, X):
-        return (self.predict_proba(X)[:, 1] >= 0.5).astype(int)
 
 
 def _split_by_year(X, y, meta, year_range):
