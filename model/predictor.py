@@ -20,6 +20,7 @@ from config.settings import (
     DB_PATH, MODEL_DIR, MIN_EDGE_THRESHOLD,
     SACKMANN_ATP_DIR, SACKMANN_WTA_DIR,
     ROLLING_WINDOW, RECENT_FORM_WINDOW,
+    ELO_START_RATING,
 )
 from model.name_match import load_player_map, lookup
 from model.elo import compute_elo, SURFACE_MAP, expected_score
@@ -246,16 +247,102 @@ def predict_match(
     return prob
 
 
-def scan_markets():
-    """Scan all active PM markets and compare model predictions to PM odds."""
+def scan_markets(use_live=True):
+    """Scan all active PM markets and compare model predictions to PM odds.
+
+    Args:
+        use_live: If True, fetch current data from SportRadar (recommended).
+                  If False, use stale 2024 Sackmann data (for testing only).
+    """
     print("Loading model...")
     model = load_model()
 
     print("Loading player map...")
     player_map = load_player_map()
 
-    print("Loading player stats (this takes a minute)...")
+    print("Loading historical player stats...")
     player_stats = _load_player_stats()
+
+    if use_live:
+        print("Fetching live data from SportRadar...")
+        from model.live_features import load_sr_map, get_live_player_stats
+
+        sr_map = load_sr_map()
+
+        # Find which SR IDs we need
+        pm_to_sr = {}
+        for sr_id, info in sr_map.items():
+            if info.get("pm_name"):
+                pm_to_sr[info["pm_name"]] = sr_id
+
+        # Collect SR IDs for active PM players
+        conn_tmp = sqlite3.connect(str(DB_PATH))
+        active_names = set()
+        for row in conn_tmp.execute("""
+            SELECT DISTINCT outcome_a FROM markets m JOIN events e ON e.id=m.event_id
+            WHERE e.active=1 AND e.closed=0
+            UNION
+            SELECT DISTINCT outcome_b FROM markets m JOIN events e ON e.id=m.event_id
+            WHERE e.active=1 AND e.closed=0
+        """).fetchall():
+            active_names.add(row[0])
+        conn_tmp.close()
+
+        # Only fetch players who are in active markets AND have a snapshot
+        # (no point fetching for zero-liquidity markets)
+        conn_tmp2 = sqlite3.connect(str(DB_PATH))
+        active_with_odds = set()
+        for row in conn_tmp2.execute("""
+            SELECT DISTINCT m.outcome_a, m.outcome_b FROM markets m
+            JOIN events e ON e.id = m.event_id
+            JOIN snapshots s ON s.market_id = m.id
+            WHERE e.active=1 AND e.closed=0
+            AND s.price_a IS NOT NULL AND s.volume > 0
+        """).fetchall():
+            active_with_odds.add(row[0])
+            active_with_odds.add(row[1])
+        conn_tmp2.close()
+
+        sr_ids_needed = list(set(pm_to_sr[n] for n in active_with_odds if n in pm_to_sr))
+        print(f"  Fetching live stats for {len(sr_ids_needed)} players with active odds...")
+        live_stats = get_live_player_stats(sr_ids_needed, sr_map)
+
+        # Merge live stats into historical stats (live overrides where available)
+        for sack_id, live in live_stats.items():
+            if sack_id in player_stats:
+                # Keep historical Elo, override everything else with live data
+                hist = player_stats[sack_id]
+                for key in ["rank", "points", "form", "days_rest", "matches_7d",
+                            "matches_14d", "games_last", "ace_rate", "1st_pct", "1st_won"]:
+                    if key in live and (pd.notna(live[key]) if not isinstance(live[key], (int, float)) else True):
+                        hist[key] = live[key]
+                # Map rank_points from SR 'points'
+                if live.get("points"):
+                    hist["rank_points"] = live["points"]
+                if live.get("rank"):
+                    hist["rank"] = live["rank"]
+            else:
+                # New player not in historical data — add with default Elo
+                player_stats[sack_id] = {
+                    "elo": ELO_START_RATING,
+                    "surface_elo": {},
+                    "rank": live.get("rank", np.nan),
+                    "rank_points": live.get("points", np.nan),
+                    "age": np.nan,
+                    "height": np.nan,
+                    "form": live.get("form", np.nan),
+                    "days_rest": live.get("days_rest", np.nan),
+                    "matches_7d": live.get("matches_7d", 0),
+                    "matches_14d": live.get("matches_14d", 0),
+                    "games_last": live.get("games_last", np.nan),
+                    "ace_rate": live.get("ace_rate", np.nan),
+                    "1st_pct": live.get("1st_pct", np.nan),
+                    "1st_won": live.get("1st_won", np.nan),
+                    "bp_saved": np.nan,
+                    "_h2h": {},
+                }
+
+        print(f"  Live data merged for {len(live_stats)} players")
 
     print("Loading active markets from DB...")
     conn = sqlite3.connect(str(DB_PATH))
