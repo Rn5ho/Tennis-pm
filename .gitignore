@@ -1,4 +1,7 @@
 __pycache__/
 *.pyc
 data/scraper.log
+data/sackmann/
+data/models/
+data/evaluation/
 .env
