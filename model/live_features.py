@@ -28,6 +28,8 @@ from scraper.sportradar import get_rankings, get_competitor_results
 logger = logging.getLogger(__name__)
 
 SR_MAP_PATH = PROJECT_ROOT / "data" / "sr_player_map.json"
+SR_STATS_CACHE_PATH = PROJECT_ROOT / "data" / "sr_stats_cache.json"
+SR_STATS_CACHE_TTL_HOURS = 18  # re-fetch after this many hours
 
 
 def _normalize(name: str) -> str:
@@ -126,18 +128,57 @@ def load_sr_map() -> dict:
     return build_sr_map()
 
 
+def _load_stats_cache() -> dict:
+    """Load cached SR player results. Returns {sr_id: {fetched_at, matches}}."""
+    if SR_STATS_CACHE_PATH.exists():
+        try:
+            with open(SR_STATS_CACHE_PATH) as f:
+                return json.load(f)
+        except (json.JSONDecodeError, ValueError):
+            return {}
+    return {}
+
+
+def _save_stats_cache(cache: dict) -> None:
+    SR_STATS_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    with open(SR_STATS_CACHE_PATH, "w") as f:
+        json.dump(cache, f)
+
+
+def _is_cache_fresh(entry: dict) -> bool:
+    """Check if a cached entry is still within TTL."""
+    from datetime import datetime, timezone
+    fetched = entry.get("fetched_at", "")
+    if not fetched:
+        return False
+    try:
+        fetched_dt = datetime.fromisoformat(fetched)
+        age_hours = (datetime.now(timezone.utc) - fetched_dt).total_seconds() / 3600
+        return age_hours < SR_STATS_CACHE_TTL_HOURS
+    except (ValueError, TypeError):
+        return False
+
+
 def get_live_player_stats(sr_ids: list[str], sr_map: dict = None) -> dict:
     """Fetch current stats for a list of SR player IDs.
 
     Uses SR rankings for rank/points and competitor results for
     recent form, serve stats, and fatigue.
 
+    Results are cached per-player for SR_STATS_CACHE_TTL_HOURS to
+    preserve API quota. Cached data is reused across predictor runs.
+
     Returns: {sackmann_id: {features dict}}
     """
+    from datetime import datetime, timezone
+
     if sr_map is None:
         sr_map = load_sr_map()
 
+    cache = _load_stats_cache()
     stats = {}
+    api_calls = 0
+    cache_hits = 0
 
     for sr_id in sr_ids:
         info = sr_map.get(sr_id, {})
@@ -145,12 +186,30 @@ def get_live_player_stats(sr_ids: list[str], sr_map: dict = None) -> dict:
         if not sack_id:
             continue
 
-        # Fetch recent matches from SR
-        try:
-            matches = get_competitor_results(sr_id)
-        except Exception as e:
-            logger.warning(f"Failed to fetch results for {sr_id}: {e}")
-            continue
+        # Check cache first
+        cached = cache.get(sr_id)
+        if cached and _is_cache_fresh(cached):
+            matches = cached["matches"]
+            cache_hits += 1
+        else:
+            # Fetch from SR API
+            try:
+                matches = get_competitor_results(sr_id)
+                api_calls += 1
+            except Exception as e:
+                logger.warning(f"Failed to fetch results for {sr_id}: {e}")
+                # Fall back to stale cache if available
+                if cached:
+                    matches = cached["matches"]
+                    cache_hits += 1
+                else:
+                    continue
+
+            # Update cache
+            cache[sr_id] = {
+                "fetched_at": datetime.now(timezone.utc).isoformat(),
+                "matches": matches,
+            }
 
         # Compute features from recent matches
         rank = info.get("rank")
@@ -236,6 +295,10 @@ def get_live_player_stats(sr_ids: list[str], sr_map: dict = None) -> dict:
             "bp_saved": np.nan,  # SR trial doesn't expose bp_saved cleanly
             "n_recent_matches": len(matches),
         }
+
+    # Persist cache
+    _save_stats_cache(cache)
+    logger.info(f"SR stats: {api_calls} API calls, {cache_hits} cache hits")
 
     return stats
 

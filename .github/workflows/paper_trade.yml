@@ -31,8 +31,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run predictor (no live SR to save API quota — uses committed Elo state)
-        run: python -m model.predictor --no-live
+      - name: Run predictor (live SR data, cached 18h per player)
+        run: python -m model.predictor
 
       - name: Backfill closed events (get resolutions)
         run: python run_scraper.py --backfill
@@ -47,7 +47,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -f data/tennis_pm.db data/paper_trades.json
+          git add -f data/tennis_pm.db data/paper_trades.json data/sr_stats_cache.json
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "auto: paper trade update $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push

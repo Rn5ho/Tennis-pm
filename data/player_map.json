@@ -181,6 +181,20 @@
     "method": "exact",
     "verified": true
   },
+  "Andrej Nedic": {
+    "sackmann_id": "210119",
+    "sackmann_name": "Andrej Nedic",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Ann Li": {
+    "sackmann_id": "215983",
+    "sackmann_name": "Ann Li",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
   "Anna Blinkova": {
     "sackmann_id": "215020",
     "sackmann_name": "Anna Blinkova",
@@ -398,6 +412,13 @@
     "method": "exact",
     "verified": true
   },
+  "Dan Martin": {
+    "sackmann_id": "202297",
+    "sackmann_name": "Dan Martin",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
   "Daniel": {
     "sackmann_id": "106121",
     "sackmann_name": "Taro Daniel",
@@ -531,6 +552,13 @@
     "method": "exact",
     "verified": true
   },
+  "Elisabetta Cocciaretto": {
+    "sackmann_id": "220714",
+    "sackmann_name": "Elisabetta Cocciaretto",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
   "Ella Seidel": {
     "sackmann_id": "230870",
     "sackmann_name": "Ella Seidel",
@@ -573,9 +601,23 @@
     "method": "exact",
     "verified": true
   },
+  "Enrico Dalla Valle": {
+    "sackmann_id": "133872",
+    "sackmann_name": "Enrico Dalla Valle",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
   "Ethan Quinn": {
     "sackmann_id": "210319",
     "sackmann_name": "Ethan Quinn",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Eva Lys": {
+    "sackmann_id": "220332",
+    "sackmann_name": "Eva Lys",
     "confidence": 1.0,
     "method": "exact",
     "verified": true
@@ -686,11 +728,11 @@
     "verified": true
   },
   "Gianluca Cadenasso": {
-    "sackmann_id": null,
-    "sackmann_name": null,
-    "confidence": 0.688,
-    "method": "no_match",
-    "verified": false
+    "sackmann_id": "211533",
+    "sackmann_name": "Gianluca Cadenasso",
+    "confidence": 0.97,
+    "method": "fuzzy",
+    "verified": true
   },
   "Gibson": {
     "sackmann_id": "221883",
@@ -791,11 +833,11 @@
     "verified": true
   },
   "Hernando Escurra": {
-    "sackmann_id": null,
-    "sackmann_name": null,
-    "confidence": 0.711,
-    "method": "no_match",
-    "verified": false
+    "sackmann_id": "200622",
+    "sackmann_name": "Hernando Jose Escurra Isnardi",
+    "confidence": 0.9,
+    "method": "manual",
+    "verified": true
   },
   "Hijikata": {
     "sackmann_id": "208014",
@@ -877,6 +919,13 @@
   "James Duckworth": {
     "sackmann_id": "105902",
     "sackmann_name": "James Duckworth",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Jan Choinski": {
+    "sackmann_id": "123828",
+    "sackmann_name": "Jan Choinski",
     "confidence": 1.0,
     "method": "exact",
     "verified": true
@@ -1231,6 +1280,13 @@
     "method": "exact",
     "verified": true
   },
+  "Marcos Giron": {
+    "sackmann_id": "106218",
+    "sackmann_name": "Marcos Giron",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
   "Mariano Kestelboim": {
     "sackmann_id": "126183",
     "sackmann_name": "Mariano Kestelboim",
@@ -1370,6 +1426,13 @@
   "Miguel Tobon": {
     "sackmann_id": "101495",
     "sackmann_name": "Miguel Tobon",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
+  "Mikhail Kukushkin": {
+    "sackmann_id": "105062",
+    "sackmann_name": "Mikhail Kukushkin",
     "confidence": 1.0,
     "method": "exact",
     "verified": true
@@ -1598,6 +1661,13 @@
     "method": "exact",
     "verified": true
   },
+  "Raul Brancaccio": {
+    "sackmann_id": "134840",
+    "sackmann_name": "Raul Brancaccio",
+    "confidence": 1.0,
+    "method": "exact",
+    "verified": true
+  },
   "Rebecca Sramkova": {
     "sackmann_id": "211685",
     "sackmann_name": "Rebecca Sramkova",
@@ -1757,6 +1827,13 @@
     "sackmann_name": "Santiago Fa Rodriguez Taverna",
     "confidence": 0.978,
     "method": "fuzzy",
+    "verified": true
+  },
+  "Sara Bejlek": {
+    "sackmann_id": "239383",
+    "sackmann_name": "Sara Bejlek",
+    "confidence": 1.0,
+    "method": "exact",
     "verified": true
   },
   "Sasnovich": {

@@ -413,6 +413,11 @@ def scan_markets(use_live=True):
 
         print(f"  Live data merged for {len(live_stats)} players")
 
+    # Load match counts for confidence gate
+    from model.backfill_elo import load_elo_state
+    elo_state = load_elo_state()
+    match_counts = elo_state.get("match_counts", {}) if elo_state else {}
+
     print("Loading active markets from DB...")
     conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
@@ -434,6 +439,7 @@ def scan_markets(use_live=True):
 
     edges = []
     skipped = 0
+    skip_reasons = defaultdict(int)
 
     for mkt in markets:
         name_a = mkt["outcome_a"]
@@ -447,26 +453,35 @@ def scan_markets(use_live=True):
 
         if not id_a or not id_b:
             skipped += 1
+            skip_reasons["no_player_map"] += 1
             continue
 
         if id_a not in player_stats or id_b not in player_stats:
             skipped += 1
+            skip_reasons["no_stats"] += 1
             continue
 
         if pm_price_a is None or pm_price_b is None:
             skipped += 1
+            skip_reasons["no_price"] += 1
             continue
 
         # Skip low-liquidity markets — price is noise
         from config.settings import MIN_VOLUME
         if (mkt["volume"] or 0) < MIN_VOLUME:
             skipped += 1
+            skip_reasons["low_volume"] += 1
             continue
 
         # Skip markets where either price is near 0 or 1 (effectively resolved)
         if pm_price_a < 0.02 or pm_price_b < 0.02 or pm_price_a > 0.98 or pm_price_b > 0.98:
             skipped += 1
+            skip_reasons["near_resolved"] += 1
             continue
+
+        # Track match counts for both players (used for confidence tagging, not filtering)
+        count_a = int(match_counts.get(id_a, 0))
+        count_b = int(match_counts.get(id_b, 0))
 
         is_atp = mkt["series"] == "atp"
 
@@ -496,6 +511,8 @@ def scan_markets(use_live=True):
             "edge_a": edge_a,
             "edge_b": edge_b,
             "volume": mkt["volume"] or 0,
+            "match_count_a": count_a,
+            "match_count_b": count_b,
         }
 
         max_edge = max(edge_a, edge_b)
@@ -504,6 +521,9 @@ def scan_markets(use_live=True):
 
     # Print results
     print(f"Analyzed {len(markets) - skipped} markets (skipped {skipped})")
+    if skip_reasons:
+        for reason, count in sorted(skip_reasons.items(), key=lambda x: -x[1]):
+            print(f"  skipped {count:3d}: {reason}")
     print(f"Edge threshold: {MIN_EDGE_THRESHOLD:.0%}\n")
 
     if edges:
@@ -532,7 +552,12 @@ def scan_markets(use_live=True):
 
 
 def _log_paper_trades(edges: list[dict]) -> None:
-    """Append edge signals to paper trading log for tracking."""
+    """Append edge signals to paper trading log, deduplicating by (title, player).
+
+    Only logs a new entry if no existing unresolved trade exists for the same
+    match + player combination. This prevents duplicate entries when the
+    predictor runs multiple times before a market resolves.
+    """
     import json as _json
     from datetime import datetime, timezone
     from config.settings import PAPER_TRADES_PATH
@@ -546,29 +571,48 @@ def _log_paper_trades(edges: list[dict]) -> None:
             logger.warning("Corrupt paper_trades.json, starting fresh")
             existing = []
 
+    # Build set of (title, bet_on) for existing unresolved trades
+    existing_keys = {
+        (t["title"], t["bet_on"])
+        for t in existing
+        if t.get("outcome") is None
+    }
+
     timestamp = datetime.now(timezone.utc).isoformat()
+    new_count = 0
 
     for e in edges:
         best = "a" if e["edge_a"] > e["edge_b"] else "b"
+        player = e[f"player_{best}"]
+        key = (e["title"], player)
+
+        if key in existing_keys:
+            continue  # already have an unresolved trade for this match+player
+
+        other = "b" if best == "a" else "a"
         entry = {
             "timestamp": timestamp,
             "title": e["title"],
             "series": e["series"],
-            "bet_on": e[f"player_{best}"],
-            "opponent": e[f"player_{'b' if best == 'a' else 'a'}"],
+            "bet_on": player,
+            "opponent": e[f"player_{other}"],
             "model_prob": round(float(e[f"model_prob_{best}"]), 4),
             "pm_price": round(float(e[f"pm_price_{best}"]), 4),
             "edge": round(float(e[f"edge_{best}"]), 4),
             "volume": float(e["volume"]),
+            "match_count_bet": e.get(f"match_count_{best}", 0),
+            "match_count_opp": e.get(f"match_count_{other}", 0),
             "outcome": None,
         }
         existing.append(entry)
+        existing_keys.add(key)
+        new_count += 1
 
     PAPER_TRADES_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(PAPER_TRADES_PATH, "w") as f:
         _json.dump(existing, f, indent=2)
 
-    print(f"\nLogged {len(edges)} paper trades to {PAPER_TRADES_PATH}")
+    print(f"\nLogged {new_count} new paper trades ({len(edges) - new_count} duplicates skipped)")
 
 
 if __name__ == "__main__":
