@@ -72,6 +72,37 @@ def _create_tables(conn: sqlite3.Connection) -> None:
 
         CREATE INDEX IF NOT EXISTS idx_markets_event
             ON markets(event_id);
+
+        CREATE TABLE IF NOT EXISTS book_snapshots (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            market_id TEXT NOT NULL,
+            scraped_at TEXT NOT NULL,
+            -- Token A (outcome A) order book summary
+            best_bid_a REAL,
+            best_bid_size_a REAL,
+            best_ask_a REAL,
+            best_ask_size_a REAL,
+            bid_liquidity_a REAL,
+            ask_liquidity_a REAL,
+            n_bid_levels_a INTEGER,
+            n_ask_levels_a INTEGER,
+            -- Token B (outcome B) order book summary
+            best_bid_b REAL,
+            best_bid_size_b REAL,
+            best_ask_b REAL,
+            best_ask_size_b REAL,
+            bid_liquidity_b REAL,
+            ask_liquidity_b REAL,
+            n_bid_levels_b INTEGER,
+            n_ask_levels_b INTEGER,
+            -- Top 10 levels each side as JSON for detailed analysis
+            depth_a TEXT,
+            depth_b TEXT,
+            FOREIGN KEY (market_id) REFERENCES markets(id)
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_book_snapshots_market_time
+            ON book_snapshots(market_id, scraped_at);
     """)
     conn.commit()
 
@@ -162,6 +193,79 @@ def upsert_market(conn: sqlite3.Connection, market: dict, event_id: str) -> None
         resolution,
         winner,
         market.get("closedTime"),
+    ))
+
+
+def _summarize_book(book: dict) -> dict:
+    """Extract summary metrics from a CLOB order book response."""
+    raw_bids = book.get("bids", [])
+    raw_asks = book.get("asks", [])
+
+    # Parse and sort: bids descending by price, asks ascending
+    bids = sorted(
+        [{"price": float(b["price"]), "size": float(b["size"])} for b in raw_bids],
+        key=lambda x: -x["price"],
+    )
+    asks = sorted(
+        [{"price": float(a["price"]), "size": float(a["size"])} for a in raw_asks],
+        key=lambda x: x["price"],
+    )
+
+    best_bid = bids[0]["price"] if bids else None
+    best_bid_size = bids[0]["size"] if bids else None
+    best_ask = asks[0]["price"] if asks else None
+    best_ask_size = asks[0]["size"] if asks else None
+
+    # Total dollar liquidity (price * size summed across all levels)
+    bid_liquidity = sum(b["price"] * b["size"] for b in bids)
+    ask_liquidity = sum(a["price"] * a["size"] for a in asks)
+
+    # Top 10 levels each side for detailed storage
+    depth = {
+        "bids": [[b["price"], b["size"]] for b in bids[:10]],
+        "asks": [[a["price"], a["size"]] for a in asks[:10]],
+    }
+
+    return {
+        "best_bid": best_bid,
+        "best_bid_size": best_bid_size,
+        "best_ask": best_ask,
+        "best_ask_size": best_ask_size,
+        "bid_liquidity": bid_liquidity,
+        "ask_liquidity": ask_liquidity,
+        "n_bid_levels": len(bids),
+        "n_ask_levels": len(asks),
+        "depth": json.dumps(depth),
+    }
+
+
+def insert_book_snapshot(
+    conn: sqlite3.Connection,
+    market_id: str,
+    scraped_at: str,
+    book_a: dict,
+    book_b: dict,
+) -> None:
+    """Insert an order book snapshot for a market (both tokens)."""
+    sa = _summarize_book(book_a)
+    sb = _summarize_book(book_b)
+
+    conn.execute("""
+        INSERT INTO book_snapshots (
+            market_id, scraped_at,
+            best_bid_a, best_bid_size_a, best_ask_a, best_ask_size_a,
+            bid_liquidity_a, ask_liquidity_a, n_bid_levels_a, n_ask_levels_a,
+            best_bid_b, best_bid_size_b, best_ask_b, best_ask_size_b,
+            bid_liquidity_b, ask_liquidity_b, n_bid_levels_b, n_ask_levels_b,
+            depth_a, depth_b
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (
+        market_id, scraped_at,
+        sa["best_bid"], sa["best_bid_size"], sa["best_ask"], sa["best_ask_size"],
+        sa["bid_liquidity"], sa["ask_liquidity"], sa["n_bid_levels"], sa["n_ask_levels"],
+        sb["best_bid"], sb["best_bid_size"], sb["best_ask"], sb["best_ask_size"],
+        sb["bid_liquidity"], sb["ask_liquidity"], sb["n_bid_levels"], sb["n_ask_levels"],
+        sa["depth"], sb["depth"],
     ))
 
 
