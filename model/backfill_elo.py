@@ -26,6 +26,7 @@ from config.settings import (
     SACKMANN_ATP_DIR, SACKMANN_WTA_DIR,
 )
 from model.elo import compute_elo, expected_score, SURFACE_MAP
+from model.tournament import lookup_surface_from_sr
 
 logger = logging.getLogger(__name__)
 
@@ -206,6 +207,9 @@ def backfill(start_date: str = "2025-01-01", end_date: str = None):
 
     print(f"Historical Elo computed for {len(elo_overall)} players")
 
+    # Track last match date per player (for zombie detection)
+    last_match_date = {}  # sackmann_id -> date string
+
     # Now process SR daily results to extend Elo forward
     print(f"\nFetching daily results from SportRadar...")
     total_matches = 0
@@ -263,14 +267,8 @@ def backfill(start_date: str = "2025-01-01", end_date: str = None):
             if not score or "W/O" in score.upper():
                 continue
 
-            # Determine surface
-            surface_raw = match.get("surface", "")
-            if "clay" in surface_raw.lower():
-                surf = "Clay"
-            elif "grass" in surface_raw.lower():
-                surf = "Grass"
-            else:
-                surf = "Hard"
+            # Determine surface from tournament lookup (SR surface field is always empty)
+            surf = lookup_surface_from_sr(comp_name)
 
             # Update Elo
             def _get_k(mc):
@@ -290,6 +288,8 @@ def backfill(start_date: str = "2025-01-01", end_date: str = None):
             elo_overall[l_sack] += k * (0.0 - (1.0 - e))
             match_counts[w_sack] += 1
             match_counts[l_sack] += 1
+            last_match_date[w_sack] = date_str
+            last_match_date[l_sack] = date_str
 
             # Surface Elo update
             sk_w = _get_k(surface_counts[w_sack][surf]) * ELO_SURFACE_K_MULTIPLIER
@@ -307,6 +307,21 @@ def backfill(start_date: str = "2025-01-01", end_date: str = None):
     print(f"  Matches processed: {resolved}")
     print(f"  Unresolved IDs: {unresolved}")
     print(f"  Players with Elo: {len(elo_overall)}")
+
+    # Reset Elo for inactive players (no match in 12+ months).
+    # Retired players like Nadal/Raonic keep inflated ratings that compress
+    # the active player scale. Resetting them to 1500 is safe because they
+    # won't appear in PM markets.
+    cutoff = (end - timedelta(days=365)).isoformat()
+    zombie_count = 0
+    for pid in list(elo_overall.keys()):
+        player_last = last_match_date.get(pid)
+        if player_last is None or player_last < cutoff:
+            elo_overall[pid] = ELO_START_RATING
+            for surf in elo_surface[pid]:
+                elo_surface[pid][surf] = ELO_START_RATING
+            zombie_count += 1
+    print(f"  Reset {zombie_count} inactive players (no match since {cutoff})")
 
     # Save Elo state
     state = {

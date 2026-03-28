@@ -28,6 +28,7 @@ from config.settings import (
 from model.name_match import load_player_map, lookup
 from model.elo import compute_elo, SURFACE_MAP, expected_score
 from model.features import FEATURE_NAMES, ROUND_NUM, LEVEL_NUM
+from model.tournament import lookup_tournament
 
 
 def load_model(name: str = "best_model"):
@@ -105,10 +106,7 @@ def _load_player_stats() -> dict:
 
     # Extract latest state per player
     stats = {}
-    player_results = defaultdict(list)
     player_serve = defaultdict(list)
-    player_dates = defaultdict(list)
-    player_games = defaultdict(list)
     h2h = defaultdict(int)
 
     # Collect the final Elo and surface Elo from the last match
@@ -120,7 +118,6 @@ def _load_player_stats() -> dict:
     for row in matches.itertuples():
         wid, lid = row.winner_id, row.loser_id
         surf = SURFACE_MAP.get(getattr(row, "surface", "Hard"), "Hard")
-        date = row.tourney_date
 
         # Update Elo snapshots (post-match, so these are the latest)
         elo_overall[wid] = row.winner_elo
@@ -128,15 +125,13 @@ def _load_player_stats() -> dict:
         elo_surface[wid][surf] = row.winner_surface_elo
         elo_surface[lid][surf] = row.loser_surface_elo
 
-        # H2H
+        # H2H + serve stats (skip walkovers)
         score = getattr(row, "score", "")
         is_wo = not isinstance(score, str) or bool(re.search(r"\bW/O\b|\bDEF\b", str(score)))
         if not is_wo:
             h2h[(wid, lid)] += 1
-            player_results[wid].append(1)
-            player_results[lid].append(0)
 
-            # Serve stats
+            # Serve stats (career averages — still useful)
             w_svpt = getattr(row, "w_svpt", None)
             if pd.notna(w_svpt) and w_svpt > 0:
                 player_serve[wid].append({
@@ -158,50 +153,32 @@ def _load_player_stats() -> dict:
                     "bpFaced": getattr(row, "l_bpFaced", 0) or 0,
                 })
 
-        player_dates[wid].append(date)
-        player_dates[lid].append(date)
-
-        # Games from score
-        total_games = 0
-        if isinstance(score, str):
-            for s in score.split():
-                m = re.match(r"(\d+)-(\d+)", s)
-                if m:
-                    total_games += int(m.group(1)) + int(m.group(2))
-        player_games[wid].append(total_games or np.nan)
-        player_games[lid].append(total_games or np.nan)
-
     # Build final stats dict
-    today = 20260317  # approximate
-
-    def _date_diff(d1, d2):
-        y1, m1, day1 = d1 // 10000, (d1 % 10000) // 100, d1 % 100
-        y2, m2, day2 = d2 // 10000, (d2 % 10000) // 100, d2 % 100
-        return (y2 - y1) * 365 + (m2 - m1) * 30 + (day2 - day1)
+    # NOTE: Sackmann data ends in 2024. Fatigue/form features computed from it
+    # are 15+ months stale and actively harmful (e.g., days_rest=500 for everyone).
+    # We set time-sensitive features to NaN here; the SR live overlay (below) will
+    # fill in real values for players it covers. XGBoost handles NaN natively —
+    # NaN is strictly better than stale garbage.
+    # Career serve stats are still useful as they represent long-term tendencies.
 
     for pid in set(list(elo_overall.keys())):
         srv = player_serve[pid][-ROLLING_WINDOW:]
         total_svpt = sum(s["svpt"] for s in srv) if srv else 0
 
-        dates = player_dates[pid]
-        days_rest = _date_diff(dates[-1], today) if dates else np.nan
-        m7 = sum(1 for d in dates if _date_diff(d, today) <= 7) if dates else 0
-        m14 = sum(1 for d in dates if _date_diff(d, today) <= 14) if dates else 0
-
-        results = player_results[pid]
-
         stats[pid] = {
             "elo": elo_overall.get(pid, 1500),
             "surface_elo": dict(elo_surface.get(pid, {})),
-            "rank": np.nan,  # would need current rankings file
+            "rank": np.nan,
             "rank_points": np.nan,
             "age": np.nan,
             "height": np.nan,
-            "form": np.mean(results[-RECENT_FORM_WINDOW:]) if results else np.nan,
-            "days_rest": days_rest,
-            "matches_7d": m7,
-            "matches_14d": m14,
-            "games_last": player_games[pid][-1] if player_games[pid] else np.nan,
+            # Time-sensitive features: NaN until SR live overlay provides real data
+            "form": np.nan,
+            "days_rest": np.nan,
+            "matches_7d": 0,
+            "matches_14d": 0,
+            "games_last": np.nan,
+            # Career serve stats: still valid as long-term averages
             "ace_rate": (sum(s["ace"] for s in srv) / total_svpt) if total_svpt > 0 else np.nan,
             "1st_pct": (sum(s["1stIn"] for s in srv) / total_svpt) if total_svpt > 0 else np.nan,
             "1st_won": (sum(s["1stWon"] for s in srv) / sum(s["1stIn"] for s in srv)) if srv and sum(s["1stIn"] for s in srv) > 0 else np.nan,
@@ -423,7 +400,7 @@ def scan_markets(use_live=True):
     conn.row_factory = sqlite3.Row
 
     markets = conn.execute("""
-        SELECT e.id as event_id, e.title, e.series,
+        SELECT e.id as event_id, e.title, e.series, e.league,
                m.id as market_id, m.outcome_a, m.outcome_b,
                s.price_a, s.price_b, s.volume, s.liquidity
         FROM events e
@@ -485,9 +462,17 @@ def scan_markets(use_live=True):
 
         is_atp = mkt["series"] == "atp"
 
+        # Resolve tournament metadata (surface, level, best_of)
+        surface, tourney_level, best_of = lookup_tournament(
+            mkt["league"], mkt["title"], mkt["series"],
+        )
+
         # Predict
         prob_a = predict_match(
             model, id_a, id_b, player_stats,
+            surface=surface,
+            tourney_level=tourney_level,
+            best_of=best_of,
             is_atp=is_atp,
         )
 
