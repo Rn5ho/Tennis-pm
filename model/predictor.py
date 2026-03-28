@@ -30,6 +30,29 @@ from model.elo import compute_elo, SURFACE_MAP, expected_score
 from model.features import FEATURE_NAMES, ROUND_NUM, LEVEL_NUM
 from model.tournament import lookup_tournament
 
+# Extended player map for better coverage (last-name matching)
+_EXT_MAP_PATH = Path(__file__).parent.parent / "data" / "player_map_extended.json"
+
+
+def _load_extended_map() -> dict:
+    """Load extended player map. Falls back to verified map if unavailable."""
+    if _EXT_MAP_PATH.exists():
+        import json as _json
+        with open(_EXT_MAP_PATH) as f:
+            return _json.load(f)
+    return {}
+
+
+def lookup_extended(pm_name: str, player_map: dict, ext_map: dict) -> str | None:
+    """Look up player ID using verified map first, then extended map."""
+    sid = lookup(pm_name, player_map)
+    if sid:
+        return sid
+    entry = ext_map.get(pm_name)
+    if entry and entry.get("sackmann_id"):
+        return entry["sackmann_id"]
+    return None
+
 
 def load_model(name: str = "best_model"):
     """Load a trained model."""
@@ -301,6 +324,8 @@ def scan_markets(use_live=True):
 
     print("Loading player map...")
     player_map = load_player_map()
+    ext_map = _load_extended_map()
+    print(f"  Verified: {len(player_map)} players, Extended: {len(ext_map)} players")
 
     if use_live:
         print("Loading historical player stats...")
@@ -424,9 +449,9 @@ def scan_markets(use_live=True):
         pm_price_a = mkt["price_a"]
         pm_price_b = mkt["price_b"]
 
-        # Look up players
-        id_a = lookup(name_a, player_map)
-        id_b = lookup(name_b, player_map)
+        # Look up players (verified map first, then extended)
+        id_a = lookup_extended(name_a, player_map, ext_map)
+        id_b = lookup_extended(name_b, player_map, ext_map)
 
         if not id_a or not id_b:
             skipped += 1
@@ -484,6 +509,11 @@ def scan_markets(use_live=True):
         edge_a = prob_a - pm_price_a
         edge_b = prob_b - pm_price_b
 
+        # Classify signal: contrarian (Elo disagrees with PM favorite) vs reinforcing
+        pm_favors_a = pm_price_a > pm_price_b
+        elo_favors_a = prob_a > prob_b
+        is_contrarian = pm_favors_a != elo_favors_a
+
         result = {
             "title": mkt["title"],
             "series": mkt["series"].upper(),
@@ -498,6 +528,9 @@ def scan_markets(use_live=True):
             "volume": mkt["volume"] or 0,
             "match_count_a": count_a,
             "match_count_b": count_b,
+            "surface": surface,
+            "level": tourney_level,
+            "contrarian": is_contrarian,
         }
 
         max_edge = max(edge_a, edge_b)
@@ -511,10 +544,13 @@ def scan_markets(use_live=True):
             print(f"  skipped {count:3d}: {reason}")
     print(f"Edge threshold: {MIN_EDGE_THRESHOLD:.0%}\n")
 
+    n_contrarian = sum(1 for e in edges if e.get("contrarian"))
+    n_reinforcing = len(edges) - n_contrarian
+
     if edges:
-        edges.sort(key=lambda x: -max(x["edge_a"], x["edge_b"]))
+        edges.sort(key=lambda x: (not x.get("contrarian", False), -max(x["edge_a"], x["edge_b"])))
         print(f"{'='*80}")
-        print(f"MARKETS WITH EDGE >= {MIN_EDGE_THRESHOLD:.0%} ({len(edges)} found)")
+        print(f"MARKETS WITH EDGE >= {MIN_EDGE_THRESHOLD:.0%} ({len(edges)} found: {n_contrarian} contrarian, {n_reinforcing} reinforcing)")
         print(f"{'='*80}")
         for e in edges:
             best = "A" if e["edge_a"] > e["edge_b"] else "B"
@@ -522,8 +558,9 @@ def scan_markets(use_live=True):
             edge = e[f"edge_{best.lower()}"]
             model_p = e[f"model_prob_{best.lower()}"]
             pm_p = e[f"pm_price_{best.lower()}"]
-            print(f"\n  [{e['series']}] {e['title']}")
-            print(f"  BET: {player}")
+            tag = "CONTRARIAN" if e.get("contrarian") else "reinforcing"
+            print(f"\n  [{e['series']}] [{tag}] {e['title']}")
+            print(f"  BET: {player}  ({e.get('surface', '?')}, {e.get('level', '?')})")
             print(f"    Model: {model_p:.1%}  |  PM: {pm_p:.1%}  |  Edge: {edge:+.1%}")
             print(f"    Volume: ${e['volume']:,.0f}")
     else:
@@ -587,6 +624,9 @@ def _log_paper_trades(edges: list[dict]) -> None:
             "volume": float(e["volume"]),
             "match_count_bet": e.get(f"match_count_{best}", 0),
             "match_count_opp": e.get(f"match_count_{other}", 0),
+            "contrarian": bool(e.get("contrarian", False)),
+            "surface": e.get("surface", "Hard"),
+            "level": e.get("level", "A"),
             "outcome": None,
         }
         existing.append(entry)

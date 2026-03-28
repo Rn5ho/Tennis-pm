@@ -128,11 +128,28 @@ def report() -> None:
                 print(f"  ROI:           {roi:+.1%}")
         print()
 
+        # Breakdown by strategy type (contrarian vs reinforcing)
+        wl = [t for t in resolved if t["outcome"] in ("win", "loss")]
+        contrarian = [t for t in wl if t.get("contrarian")]
+        reinforcing = [t for t in wl if not t.get("contrarian")]
+
+        if contrarian or reinforcing:
+            print(f"  --- By Strategy ---")
+            for label, bucket in [("CONTRARIAN", contrarian), ("Reinforcing", reinforcing)]:
+                if not bucket:
+                    continue
+                bw = sum(1 for t in bucket if t["outcome"] == "win")
+                bl = sum(1 for t in bucket if t["outcome"] == "loss")
+                bpnl = sum(t.get("pnl", 0) for t in bucket)
+                bwag = len(bucket) * FLAT_BET_SIZE
+                broi = bpnl / bwag if bwag > 0 else 0
+                print(f"  {label:>12}: {bw}W/{bl}L  P&L: ${bpnl:+,.2f}  ROI: {broi:+.1%}")
+
         # Breakdown by edge bucket
-        print(f"  --- By Edge Size ---")
+        print(f"\n  --- By Edge Size ---")
         buckets = [(0.05, 0.10), (0.10, 0.15), (0.15, 0.20), (0.20, 0.30), (0.30, 1.0)]
         for lo, hi in buckets:
-            bucket = [t for t in resolved if t["outcome"] in ("win", "loss") and lo <= t.get("edge", 0) < hi]
+            bucket = [t for t in wl if lo <= t.get("edge", 0) < hi]
             if bucket:
                 bw = sum(1 for t in bucket if t["outcome"] == "win")
                 bl = sum(1 for t in bucket if t["outcome"] == "loss")
