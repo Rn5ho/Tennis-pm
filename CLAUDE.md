@@ -31,12 +31,13 @@ Automated tennis value betting system on Polymarket. Compares AI-generated match
 
 ## Current Status
 
-### Phase 0: Data Collection - ACTIVE
-- **Polymarket scraper running via GitHub Actions** (`.github/workflows/scraper.yml`), every 30 minutes
+### Phase 0: Data Collection - COMPLETE (moved to VPS)
+- **Scraper running on Hetzner VPS** (`ssh root@65.21.178.90`), every 5 minutes via cron
+- GitHub Actions scraper/paper-trade workflows DISABLED (VPS handles both)
+- VPS auto-commits+pushes to `dev` every 30 min via deploy scripts in `/root/tennis-pm/deploy/`
 - Scrapes both ATP (series_id: 10365) and WTA (series_id: 10366) moneyline markets only
-- Paginates through all results (Gamma API defaults to 20 per page, ~120 active markets typical)
+- Paginates through all results (Gamma API defaults to 20 per page, ~130 active markets typical)
 - Stores events, markets, and point-in-time odds snapshots in SQLite (`data/tennis_pm.db`)
-- DB is committed to repo by Actions so data persists without a server
 - Entry point: `python run_scraper.py` (once), `python run_scraper.py --loop` (continuous), `python run_scraper.py --backfill` (closed events)
 - Logs append to `data/scraper.log`
 
@@ -63,10 +64,25 @@ Automated tennis value betting system on Polymarket. Compares AI-generated match
   - Re-generate: `python -m model.name_match generate`
 - **Live predictor** (`model/predictor.py`): scans PM markets with current Elo + SR live data
   - Filters: $500 min volume, skips resolved markets (price < 2% or > 98%)
+  - Edge window: 5-20% (edges >20% are noise — model wrong, not market)
+  - Classifies each signal as **contrarian** (Elo disagrees with PM favorite) or **reinforcing**
   - Paper trade log: `data/paper_trades.json`
+  - VPS runs predictor every 30 min with `--no-live` (Elo-only, avoids SR rate limits)
   - Run: `python -m model.predictor`
+
+### Phase 2.5: Contrarian Strategy Validation - ACTIVE (started 2026-03-28)
+- **Hypothesis:** PM tennis prices are noisy (57% prediction accuracy vs Elo's 67%). When they disagree, Elo is right 65% of the time. Betting the PM underdog when Elo says undervalued = the edge.
+- **Backtest result (492 resolved markets):**
+  - Contrarian bets, 5-20% gap: 61 bets, 67% win, +49% ROI
+  - ATP contrarian, 5-20% gap: 49 bets, 71% win, +57% ROI
+  - Reinforcing bets (same gap): 173 bets, 52% win, -4% ROI
+- **Live paper trading (started 2026-03-28):**
+  - Contrarian 5-20%: 3/6 wins (50%) — below backtest but tiny sample
+  - Contrarian >20%: 0/3 wins — confirmed bad, now capped out
+  - Need 50+ resolved contrarian trades before evaluating
+  - ~13 contrarian trades pending resolution as of 2026-03-29
+- **Decision point:** If contrarian signal holds at 50+ bets with >55% win rate and positive ROI, proceed to Phase 3 with small bankroll on ATP contrarian bets only
 - **Still needed:**
-  - PM backtest once enough resolved markets accumulate with odds history
   - Matchstat fallback before SR trial expires (~April 16)
 
 ## Key Design Decisions

@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 from config.settings import (
-    DB_PATH, MODEL_DIR, MIN_EDGE_THRESHOLD,
+    DB_PATH, MODEL_DIR, MIN_EDGE_THRESHOLD, MAX_EDGE_THRESHOLD,
     SACKMANN_ATP_DIR, SACKMANN_WTA_DIR,
     ROLLING_WINDOW, RECENT_FORM_WINDOW,
     ELO_START_RATING,
@@ -534,7 +534,7 @@ def scan_markets(use_live=True):
         }
 
         max_edge = max(edge_a, edge_b)
-        if max_edge >= MIN_EDGE_THRESHOLD:
+        if MIN_EDGE_THRESHOLD <= max_edge <= MAX_EDGE_THRESHOLD:
             edges.append(result)
 
     # Print results
@@ -542,7 +542,7 @@ def scan_markets(use_live=True):
     if skip_reasons:
         for reason, count in sorted(skip_reasons.items(), key=lambda x: -x[1]):
             print(f"  skipped {count:3d}: {reason}")
-    print(f"Edge threshold: {MIN_EDGE_THRESHOLD:.0%}\n")
+    print(f"Edge threshold: {MIN_EDGE_THRESHOLD:.0%} - {MAX_EDGE_THRESHOLD:.0%}\n")
 
     n_contrarian = sum(1 for e in edges if e.get("contrarian"))
     n_reinforcing = len(edges) - n_contrarian
