@@ -20,7 +20,7 @@ REQUEST_DELAY_SECONDS = 1  # delay between API calls to be polite
 
 # Betting defaults (revisit with real data)
 MIN_EDGE_THRESHOLD = 0.05  # 5% minimum edge to consider a bet
-MAX_EDGE_THRESHOLD = 0.20  # 20% cap — larger gaps mean the model is wrong, not the market
+MAX_EDGE_THRESHOLD = 0.10  # 10% cap — paper trading showed larger gaps = model wrong, not market
 MIN_VOLUME = 500           # skip markets with less than $500 volume (price is noise)
 
 # Paper trading

@@ -30,6 +30,7 @@ logger = logging.getLogger(__name__)
 SR_MAP_PATH = PROJECT_ROOT / "data" / "sr_player_map.json"
 SR_STATS_CACHE_PATH = PROJECT_ROOT / "data" / "sr_stats_cache.json"
 SR_STATS_CACHE_TTL_HOURS = 18  # re-fetch after this many hours
+SR_MAX_API_CALLS_PER_RUN = 20  # cap cold fetches per run to avoid trial rate limits
 
 
 def _normalize(name: str) -> str:
@@ -179,6 +180,7 @@ def get_live_player_stats(sr_ids: list[str], sr_map: dict = None) -> dict:
     stats = {}
     api_calls = 0
     cache_hits = 0
+    api_stopped = False  # stop making API calls after rate limit or cap
 
     for sr_id in sr_ids:
         info = sr_map.get(sr_id, {})
@@ -191,6 +193,13 @@ def get_live_player_stats(sr_ids: list[str], sr_map: dict = None) -> dict:
         if cached and _is_cache_fresh(cached):
             matches = cached["matches"]
             cache_hits += 1
+        elif api_stopped or api_calls >= SR_MAX_API_CALLS_PER_RUN:
+            # Rate limited or hit cap — use stale cache or skip (next run picks up)
+            if cached:
+                matches = cached["matches"]
+                cache_hits += 1
+            else:
+                continue
         else:
             # Fetch from SR API
             try:
@@ -198,6 +207,9 @@ def get_live_player_stats(sr_ids: list[str], sr_map: dict = None) -> dict:
                 api_calls += 1
             except Exception as e:
                 logger.warning(f"Failed to fetch results for {sr_id}: {e}")
+                if "429" in str(e):
+                    api_stopped = True
+                    logger.warning("Rate limited — stopping API calls for this run (%d fetched)", api_calls)
                 # Fall back to stale cache if available
                 if cached:
                     matches = cached["matches"]

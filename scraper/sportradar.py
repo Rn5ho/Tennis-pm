@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 API_KEY = os.environ.get("SPORTRADAR_API_KEY", "")
 BASE_URL = "https://api.sportradar.com/tennis/trial/v3/en"
 CACHE_DIR = PROJECT_ROOT / "data" / "sportradar_cache"
-REQUEST_DELAY = 3.0  # seconds between requests (trial rate limit — 1.5s was too aggressive)
+REQUEST_DELAY = 5.0  # seconds between requests (trial burst limit needs >3s for sustained calls)
 
 
 def _load_env():
@@ -54,17 +54,20 @@ def _fetch(endpoint: str) -> dict:
         return data
     except HTTPError as e:
         if e.code == 429:
-            _fetch._retry_count = getattr(_fetch, '_retry_count', 0) + 1
-            if _fetch._retry_count > 5:
-                logger.error("Rate limited 5 times in a row, giving up on %s", endpoint)
-                _fetch._retry_count = 0
-                raise
-            wait = min(10 * _fetch._retry_count, 30)  # exponential backoff: 10, 20, 30s
-            logger.warning("Rate limited, waiting %ds (attempt %d)...", wait, _fetch._retry_count)
-            time.sleep(wait)
-            result = _fetch(endpoint)
-            _fetch._retry_count = 0
-            return result
+            # Single retry after 30s wait — if it fails again, propagate immediately
+            # so the caller can stop making further requests this run
+            if not getattr(_fetch, '_retrying', False):
+                _fetch._retrying = True
+                logger.warning("Rate limited on %s, waiting 30s and retrying once...", endpoint)
+                time.sleep(30)
+                try:
+                    result = _fetch(endpoint)
+                    _fetch._retrying = False
+                    return result
+                except HTTPError:
+                    _fetch._retrying = False
+                    raise
+            raise
         logger.error("HTTP %d fetching %s", e.code, endpoint)
         raise
 

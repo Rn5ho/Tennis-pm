@@ -328,8 +328,12 @@ def scan_markets(use_live=True):
     print(f"  Verified: {len(player_map)} players, Extended: {len(ext_map)} players")
 
     if use_live:
-        print("Loading historical player stats...")
-        player_stats = _load_player_stats()
+        print("Loading player stats...")
+        try:
+            player_stats = _load_player_stats()
+        except (ValueError, FileNotFoundError):
+            print("  Sackmann CSVs not available, using Elo state as base...")
+            player_stats = _load_player_stats_light()
     else:
         print("Loading player stats from Elo state (light mode)...")
         player_stats = _load_player_stats_light()
