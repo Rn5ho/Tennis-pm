@@ -64,10 +64,10 @@ Automated tennis value betting system on Polymarket. Compares AI-generated match
   - Re-generate: `python -m model.name_match generate`
 - **Live predictor** (`model/predictor.py`): scans PM markets with current Elo + SR live data
   - Filters: $500 min volume, skips resolved markets (price < 2% or > 98%)
-  - Edge window: 5-20% (edges >20% are noise — model wrong, not market)
+  - Edge window: 5-10% (edges >10% are model error — paper trading confirmed inverse correlation)
   - Classifies each signal as **contrarian** (Elo disagrees with PM favorite) or **reinforcing**
   - Paper trade log: `data/paper_trades.json`
-  - VPS runs predictor every 30 min with `--no-live` (Elo-only, avoids SR rate limits)
+  - VPS runs predictor every 30 min with live SR data (form, fatigue, serve stats)
   - Run: `python -m model.predictor`
 
 ### Phase 2.5: Contrarian Strategy Validation - ACTIVE (started 2026-03-28)
@@ -103,7 +103,7 @@ These were discussed and agreed upon before building. Do not change without disc
 
 7. **Odds snapshots over time, not single readings.** The scraper captures odds every 30 minutes. Odds movement is signal — sudden moves suggest injury news, weather, or insider info.
 
-8. **5% minimum edge threshold** to consider a bet (model says 65%, market implies <=60%). This is a starting default — will be revisited once we have enough data to analyze.
+8. **5-10% edge window** to consider a bet. Paper trading (345 trades) showed higher edges = worse performance (inverted signal). 5-10% was the only zone near breakeven. Edges >10% mean the model is wrong, not the market.
 
 ## Data Sources
 
