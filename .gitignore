@@ -1,6 +1,8 @@
 __pycache__/
 *.pyc
 data/scraper.log
+data/predictor.log
+data/*.log
 data/sackmann/
 data/evaluation/
 data/sr_daily_cache/
