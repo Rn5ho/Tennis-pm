@@ -5,4 +5,9 @@ data/sackmann/
 data/evaluation/
 data/sr_daily_cache/
 data/name_cache.json
+data/tennis_pm.db
+data/paper_trades.json
+data/sr_stats_cache.json
+data/elo_state.json
+data/resolved_dataset.json
 .env
