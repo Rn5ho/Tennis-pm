@@ -1,5 +1,21 @@
 # Tennis Polymarket Betting Bot
 
+## STATUS: PAUSED 2026-04-14
+
+Project paused. User refocused on weather betting. SportRadar trial expires ~2026-04-16.
+
+**Reason:** 10 days of live paper trading (Apr 4–14, 257 resolved bets) failed to reproduce the backtest edge.
+- Contrarian ATP live: 50% WR vs 71% in backtest (21pp gap, too large for noise)
+- Contrarian overall: 49% WR, +$21 on 43 bets — statistically zero
+- Reinforcing: 42% WR, -$303 on 214 bets — confirmed -EV
+- Root cause (backtest overfit vs. live predictor bug) unresolved
+
+**VPS state (65.21.178.90):** Cron jobs commented out 2026-04-14. Original crontab backed up at `/root/crontab.backup.2026-04-14`. Resume with `crontab -e` and uncomment the two lines.
+
+**If resuming:** first question is backtest-vs-live divergence, not more paper trading. Also need Matchstat fallback since SR trial is expired.
+
+---
+
 ## What This Is
 
 Automated tennis value betting system on Polymarket. Compares AI-generated match win probabilities against Polymarket implied odds. Bets when the gap exceeds a threshold (currently 5%, to be revisited with real data).
